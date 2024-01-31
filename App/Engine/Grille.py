@@ -9,24 +9,24 @@ class Grille:
         # constructeur vide
         pass
 
-    def getGrille(self):
+    def get_grille(self):
         return self.grille
 
-    def getColonne(self, colonne: int):
+    def get_colonne(self, colonne: int):
         if colonne < 0 or colonne > 6:
             raise IndexError("La colonne demandée n'existe pas")
         else:
             colonne = [row[colonne] for row in self.grille]
             return colonne
 
-    def getLigne(self, ligne: int):
+    def get_ligne(self, ligne: int):
         if ligne < 0 or ligne > 5:
             raise IndexError("La ligne demandée n'existe pas")
         else:
             ligne = self.grille[ligne]
             return ligne
 
-    def getCase(self, ligne: int, colonne: int):
+    def get_case(self, ligne: int, colonne: int):
         if ligne < 0 or ligne > 5:
             raise IndexError("La ligne demandée n'existe pas")
         elif colonne < 0 or colonne > 6:
@@ -35,7 +35,7 @@ class Grille:
             case = self.grille[ligne][colonne]
             return case
 
-    def placerPion(self, colonne:int):
+    def placer_pion(self, colonne:int):
         if colonne < 0 or colonne > 6:
             raise IndexError("La colonne demandée n'existe pas")
         else:
