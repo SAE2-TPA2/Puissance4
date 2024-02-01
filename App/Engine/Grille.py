@@ -24,6 +24,13 @@ class Grille:
         ligne = [col[ligne] for col in self.grille]
         return ligne
 
+    def est_pleine(self):
+        for colonne in self.grille:
+            for case in colonne:
+                if case is None:
+                    return False
+        return True
+
     def get_case(self, ligne: int, colonne: int):
         if not (0 <= ligne < 6):
             raise IndexError("La ligne demandée n'existe pas")
