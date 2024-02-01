@@ -1,6 +1,5 @@
-from App.Engine.Exceptions import ColonnePleineException
-
 from App.Engine.Jeton import Rond, Croix
+from App.Engine.Joueur import Joueur
 
 
 class Grille:
@@ -39,11 +38,17 @@ class Grille:
         if not (0 <= colonne < 7):
             raise IndexError("La colonne demandée n'existe pas")
         else:
-            for ligne in range(5):
+            for ligne in range(7):
                 if self.grille[ligne][colonne] is None:
                     self.grille[ligne][colonne] = jeton.get_caractere()
                     return
-            raise ColonnePleineException("La colonne demandée est pleine")
+            raise Exception("La colonne est pleine")
+
+    def jouer_pion(self, joueur: Joueur):
+        #TODO: colonne = joueur.choisir_colonne()
+        #self.placer_pion(colonne, joueur.get_jeton())
+        pass
+
 
     def __str__(self):
         affichage = ""

@@ -1,4 +1,5 @@
 import unittest
+
 from App.Engine.Grille import Grille
 from App.Engine.Jeton import Rond, Croix
 
@@ -51,14 +52,18 @@ class TestGrille(unittest.TestCase):
         self.assertEqual(grille.get_case(1, 0), croix.get_caractere())
 
         # Test de placement d'un jeton dans une colonne pleine
-        for i in range(4, 6):
-            grille.placer_pion(0, rond.get_caractere())
-        with self.assertRaises(ValueError):
-            grille.placer_pion(0, croix.get_caractere())
+        grille = Grille()
+        rond = Rond()
+
+        # Test de placement d'un jeton dans une colonne pleine
+        for i in range(6):
+            grille.placer_pion(0, rond)
+        with self.assertRaises(Exception):
+            grille.placer_pion(0, rond)
 
         # Test de placement d'un jeton en dehors de la grille
         with self.assertRaises(IndexError):
-            grille.placer_pion(7, rond.get_caractere())
+            grille.placer_pion(7, rond)
         with self.assertRaises(IndexError):
             grille.placer_pion(-1, rond)
 
