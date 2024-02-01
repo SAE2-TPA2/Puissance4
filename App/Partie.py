@@ -54,9 +54,8 @@ class Partie:
             self.grille.placer_pion(numero_colonne_joue,jeton_joue)
         if(self.est_gagner == "Croix"):
             print("Le joueur ",self.joueur_1.get_pseudo(), "remporte la partie !")
-        else:
-            if(self.est_gagner == "Rond"):
-                print("Le joueur ",self.joueur_2.get_pseudo(), "remporte la partie !")
-            else: 
-                print("Égalité, aucun joueur ne remporte la partie")
+        elif(self.est_gagner == "Rond"):
+            print("Le joueur ",self.joueur_2.get_pseudo(), "remporte la partie !")
+        else: 
+            print("Égalité, aucun joueur ne remporte la partie")
         
