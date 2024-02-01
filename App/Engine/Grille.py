@@ -46,12 +46,12 @@ class Grille:
             raise ColonnePleineException("La colonne demandée est pleine")
 
     def __str__(self):
-        affichage = ""
+        affichage = (" ___" * (len(self.grille) - 1)) + "\n"
         for col in range(len(self.grille[0]) - 1, 0, -1):
-            for lig in range(len(self.grille)):
+            for lig in range(len(self.grille) - 1):
                 pion = " "
                 if self.grille[lig][col] is not None:
                     pion = self.grille[lig][col].get_caractere()
-                affichage = "|" + pion
-            affichage + "|\n"
+                affichage += "| " + pion + " "
+            affichage += "|\n" + ("|___" * (len(self.grille) - 1)) + "|\n"
         return affichage
