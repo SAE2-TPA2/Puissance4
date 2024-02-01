@@ -1,5 +1,4 @@
-#from App.Partie import Partie
-from App.Engine.Grille import Grille
+from App.Partie import Partie
 
 if __name__ == '__main__':
 
@@ -17,6 +16,23 @@ if __name__ == '__main__':
     print("4. Quitter")
 
     choix = input("Votre choix : ")
+    while choix not in ["1", "2", "3", "4"]:
+        print("Choix invalide, veuillez choisir un nombre entre 1 et 4")
+        choix = input("Votre choix : ")
 
-    g = Grille()
-    print(g)
+    match choix:
+        case "1":
+            print("Joueur vs Joueur")
+            partie = Partie()
+            partie.boucleJeu()
+        case "2":
+            print("Joueur vs IA")
+            partie = Partie()
+            partie.boucleJeu()
+        case "3":
+            print("IA vs IA")
+            partie = Partie()
+            partie.boucleJeu()
+        case "4":
+            print("Au revoir !")
+            exit(0)
