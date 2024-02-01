@@ -24,7 +24,7 @@ class Grille:
         ligne = [col[ligne] for col in self.grille]
         return ligne
 
-    def est_pleine(self):
+    def grille_est_pleine(self):
         for colonne in self.grille:
             for case in colonne:
                 if case is None:
