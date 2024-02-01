@@ -67,6 +67,15 @@ class TestGrille(unittest.TestCase):
         with self.assertRaises(IndexError):
             grille.placer_pion(-1, rond)
 
+    def test_est_gagnee(self):
+        grille = Grille()
+        rond = Rond()
+        croix = Croix()
+
+        for colonne in range(4):
+            grille.placer_pion(colonne, rond)
+
+        print(grille)
 
     def test_est_pleine(self):
         grille = Grille()
