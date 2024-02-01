@@ -1,5 +1,4 @@
-from Jeton import Rond, Croix
-
+from App.Engine.Jeton import Rond, Croix
 
 class Joueur:
     def __init__(self, pseudo: str, jeton: Rond | Croix, est_humain: bool = True):

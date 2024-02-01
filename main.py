@@ -1,4 +1,5 @@
 #from App.Partie import Partie
+from App.Engine.Grille import Grille
 
 if __name__ == '__main__':
 
@@ -17,4 +18,5 @@ if __name__ == '__main__':
 
     choix = input("Votre choix : ")
 
-    
+    g = Grille()
+    print(g)
