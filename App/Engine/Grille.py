@@ -55,3 +55,29 @@ class Grille:
                 affichage = "|" + pion
             affichage + "|\n"
         return affichage
+
+    def est_gagnee(self) -> False|str:
+        """
+        Détermine si la grille est dite gagnée : quatre
+        jetons d'un joueur alignés.
+
+        Analyse sur trois parties :
+        - Analyse horizontale
+        - Analyse verticale
+        - Analyse diagonale
+
+        TODO: appeler la méthode dans "jouer_pion()".
+
+        :return:
+        - FALSE si la partie n'est pas encore gagnée
+        - ou 'X' ou 'O' en fonction du jeton gagnant
+        """
+        partie_gagnee = False
+
+        # 1. Analyse horizontale
+
+        for y in self.get_grille():
+            for x in y:
+                print(f"{x}\t{y}")
+
+        return False  # TODO STUB
