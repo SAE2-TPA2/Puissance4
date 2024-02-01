@@ -43,10 +43,9 @@ class Grille:
             raise Exception("La colonne est pleine")
 
     def jouer_pion(self, joueur: Joueur):
-        #TODO: colonne = joueur.choisir_colonne()
-        #self.placer_pion(colonne, joueur.get_jeton())
+        # TODO: colonne = joueur.choisir_colonne()
+        # self.placer_pion(colonne, joueur.get_jeton())
         pass
-
 
     def __str__(self):
         affichage = ""
@@ -59,7 +58,7 @@ class Grille:
             affichage + "|\n"
         return affichage
 
-    def est_gagnee(self) -> False|str:
+    def est_gagnee(self):
         """
         Détermine si la grille est dite gagnée : quatre
         jetons d'un joueur alignés.
