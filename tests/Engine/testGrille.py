@@ -69,8 +69,8 @@ class TestGrille(unittest.TestCase):
 
     def test_grille_est_pleine(self):
         grille = Grille()
-        self.assertFalse(grille.est_pleine())
+        self.assertFalse(grille.grille_est_pleine())
         for i in range(6):
             for j in range(7):
                 grille.placer_pion(j, Rond())
-        self.assertTrue(grille.est_pleine())
+        self.assertTrue(grille.grille_est_pleine())
