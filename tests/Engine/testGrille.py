@@ -1,20 +1,65 @@
 import unittest
 from App.Engine.Grille import Grille
+from App.Engine.Jeton import Rond, Croix
 
 
 class TestGrille(unittest.TestCase):
 
     def test_get_grille(self):
         grille = Grille()
-        self.assertEqual(grille.getGrille(), [[None for x in range(7)] for y in range(6)])
+        self.assertEqual(grille.get_grille(), [[None for x in range(7)] for y in range(6)])
 
     def test_get_colonne(self):
         grille = Grille()
-        self.assertEqual(grille.getColonne(4), [None for x in range(6)])
+        self.assertEqual(grille.get_colonne(4), [None for x in range(6)])
         with self.assertRaises(IndexError):
-            grille.getColonne(7)
+            grille.get_colonne(7)
         with self.assertRaises(IndexError):
-            grille.getColonne(-1)
+            grille.get_colonne(-1)
 
+    def test_get_ligne(self):
+        grille = Grille()
+        self.assertEqual(grille.get_ligne(4), [None for x in range(7)])
+        with self.assertRaises(IndexError):
+            grille.get_ligne(6)
+        with self.assertRaises(IndexError):
+            grille.get_ligne(-1)
+
+    def test_get_case(self):
+        grille = Grille()
+        self.assertEqual(grille.get_case(4, 4), None)
+        with self.assertRaises(IndexError):
+            grille.get_case(6, 4)
+        with self.assertRaises(IndexError):
+            grille.get_case(-1, 4)
+        with self.assertRaises(IndexError):
+            grille.get_case(4, 7)
+        with self.assertRaises(IndexError):
+            grille.get_case(4, -1)
+
+    def test_placer_pion(self):
+        grille = Grille()
+        rond = Rond()
+        croix = Croix()
+
+        # Test de placement d'un jeton dans une colonne vide
+        grille.placer_pion(0, rond)
+        self.assertEqual(grille.get_case(0, 0), rond.get_caractere())
+
+        # Test de placement d'un jeton sur un autre jeton
+        grille.placer_pion(0, croix)
+        self.assertEqual(grille.get_case(1, 0), croix.get_caractere())
+
+        # Test de placement d'un jeton dans une colonne pleine
+        for i in range(4, 6):
+            grille.placer_pion(0, rond.get_caractere())
+        with self.assertRaises(ValueError):
+            grille.placer_pion(0, croix.get_caractere())
+
+        # Test de placement d'un jeton en dehors de la grille
+        with self.assertRaises(IndexError):
+            grille.placer_pion(7, rond.get_caractere())
+        with self.assertRaises(IndexError):
+            grille.placer_pion(-1, rond)
 
 
