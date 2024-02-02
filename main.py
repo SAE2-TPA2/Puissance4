@@ -24,15 +24,15 @@ if __name__ == '__main__':
         case "1":
             print("Joueur vs Joueur")
             partie = Partie()
-            partie.boucleJeu()
+            partie.boucle_jeu()
         case "2":
             print("Joueur vs IA")
-            partie = Partie()
-            partie.boucleJeu()
+            partie = Partie(joueur_2_ia=True)
+            partie.boucle_jeu()
         case "3":
             print("IA vs IA")
-            partie = Partie()
-            partie.boucleJeu()
+            partie = Partie(joueur_1_ia=True, joueur_2_ia=True)
+            partie.boucle_jeu()
         case "4":
             print("Au revoir !")
             exit(0)

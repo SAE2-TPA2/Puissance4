@@ -1,13 +1,13 @@
-from Engine.Jeton import Croix, Rond
-from Engine.Joueur import Joueur
-from Engine.Grille import Grille
+from App.Engine.Jeton import Croix, Rond
+from App.Engine.Joueur import Joueur
+from App.Engine.Grille import Grille
 
 
 class Partie:
-    def __init__(self):
+    def __init__(self, joueur_1_ia: bool = False, joueur_2_ia: bool = False):
         self.nb_tour = 0
-        self.joueur_1 = Joueur("", Croix())
-        self.joueur_2 = Joueur("", Rond())
+        self.joueur_1 = Joueur("", Croix(), joueur_1_ia)
+        self.joueur_2 = Joueur("", Rond(), joueur_2_ia)
         self.grille = Grille()
 
     def get_nb_tour(self):
@@ -43,7 +43,7 @@ class Partie:
             jeton_joue: Rond | Croix = joueur_du_tour.get_jeton()
             self.grille.placer_pion(numero_colonne_joue, jeton_joue)
             self.nb_tour += 1
-            
+
         if self.grille.est_gagnee() == "Croix":
             print("Le joueur ", self.joueur_1.get_pseudo(), "remporte la partie !")
         elif self.grille.est_gagnee() == "Rond":
