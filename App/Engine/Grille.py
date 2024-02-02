@@ -55,7 +55,7 @@ class Grille:
         # self.placer_pion(colonne, joueur.get_jeton())
         pass
 
-    def est_gagnee(self):
+    def est_gagnee(self, pion_joue: Rond | Croix):
         """
         Détermine si la grille est dite gagnée : quatre
         jetons d'un joueur alignés.
@@ -67,15 +67,14 @@ class Grille:
 
         TODO: appeler la méthode dans "jouer_pion()".
 
-        :return:
-        - FALSE si la partie n'est pas encore gagnée
-        - ou 'X' ou 'O' en fonction du jeton gagnant
+        :return: si la partie est gagnée par le pion joué
         """
-        partie_gagnee = False
 
         # 1. Analyse horizontale
 
         for y in self.get_grille():
+
+
             for x in y:
                 print(f"{x}\t{y}")
 
