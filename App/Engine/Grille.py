@@ -44,26 +44,16 @@ class Grille:
             raise IndexError("La colonne demandée n'existe pas")
         else:
             for ligne in range(6):
-                if self.grille[colonne][ligne] is None:
-                    self.grille[colonne][ligne] = jeton.get_caractere()
+                if self.get_case(colonne, ligne) is None:
+                    self.grille[colonne][ligne] = jeton
                     return
+
             raise Exception("La colonne est pleine")
 
     def jouer_pion(self, joueur: Joueur):
         # TODO: colonne = joueur.choisir_colonne()
         # self.placer_pion(colonne, joueur.get_jeton())
         pass
-
-    def __str__(self):
-        affichage = (" ___" * (len(self.grille) - 1)) + "\n"
-        for col in range(len(self.grille[0]) - 1, 0, -1):
-            for lig in range(len(self.grille) - 1):
-                pion = " "
-                if self.grille[lig][col] is not None:
-                    pion = self.grille[lig][col].get_caractere()
-                affichage += "| " + pion + " "
-            affichage += "|\n" + ("|___" * (len(self.grille) - 1)) + "|\n"
-        return affichage
 
     def est_gagnee(self):
         """
@@ -90,3 +80,19 @@ class Grille:
                 print(f"{x}\t{y}")
 
         return False  # TODO STUB
+
+    def __str__(self):
+        affichage = (" ___" * (len(self.grille) - 1)) + "\n"
+
+        for lig in range(len(self.get_colonne(0)) - 1, -1, -1):
+            for col in range(len(self.get_grille()) - 1):
+                pion = " "
+
+                if self.get_case(lig, col) is not None:
+                    pion = self.get_case(lig, col).get_caractere()
+
+                affichage += f"| {pion} "
+
+            affichage += "|\n" + ("|___" * (len(self.grille) - 1)) + "|\n"
+
+        return affichage
