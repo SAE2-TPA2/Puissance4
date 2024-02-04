@@ -1,6 +1,6 @@
-class Rond:
-    def __init__(self):
-        self.caractere = "O"
+class Jeton:
+    def __init__(self, caratere: str):
+        self.caractere = caratere
 
     def get_caractere(self):
         return self.caractere
@@ -9,12 +9,11 @@ class Rond:
         return self.caractere
 
 
-class Croix:
+class Rond(Jeton):
     def __init__(self):
-        self.caractere = "X"
+        super().__init__("O")
 
-    def get_caractere(self):
-        return self.caractere
 
-    def __str__(self):
-        return self.caractere
+class Croix(Jeton):
+    def __init__(self):
+        super().__init__("X")
