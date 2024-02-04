@@ -1,5 +1,4 @@
-from App.Engine.Jeton import Rond, Croix
-from App.Engine.Joueur import Joueur
+from App.Engine.Jeton import Rond, Croix, Jeton
 
 
 class Grille:
@@ -7,6 +6,7 @@ class Grille:
     def __init__(self):
         # constructeur vide
         # grille de jeu puissance 4 (6 lignes, 7 colonnes) initialisée à null
+        # la base de la grille commence à la ligne 0
         self.grille: list[list[Rond | Croix | None]] = [[None for x in range(6)] for y in range(7)]
         pass
 
@@ -50,12 +50,7 @@ class Grille:
 
             raise Exception("La colonne est pleine")
 
-    def jouer_pion(self, joueur: Joueur):
-        # TODO: colonne = joueur.choisir_colonne()
-        # self.placer_pion(colonne, joueur.get_jeton())
-        pass
-
-    def est_gagnee(self, pion_joue: Rond | Croix):
+    def est_gagnee(self) -> Jeton | None:
         """
         Détermine si la grille est dite gagnée : quatre
         jetons d'un joueur alignés.
@@ -74,11 +69,18 @@ class Grille:
 
         for y in self.get_grille():
 
-
             for x in y:
-                print(f"{x}\t{y}")
+                pass
+#                print(f"{x}\t{y}")
 
-        return False  # TODO STUB
+        return None  # TODO STUB
+
+    def coups_possible(self)->list[int]:
+        """
+        Retourne la liste des colonnes où un coup est possible
+        :return: liste des colonnes où un coup est possible
+        """
+        return [i for i in range(len(self.grille) - 1) if not self.colonne_est_pleine(i)]
 
     def __str__(self):
         affichage = (" ___" * (len(self.grille) - 1)) + "\n"
@@ -95,3 +97,11 @@ class Grille:
             affichage += "|\n" + ("|___" * (len(self.grille) - 1)) + "|\n"
 
         return affichage
+
+    def colonne_est_pleine(self, i)->bool:
+        """
+        Retourne True si la colonne est pleine False sinon
+        :param i: L'indice de la colonne à tester
+        :return:
+        """
+        return self.get_case(len(self.grille[0]) - 1, i) is not None
