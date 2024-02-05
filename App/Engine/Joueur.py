@@ -26,7 +26,11 @@ class Joueur:
         :return:
         """
         if self.est_humain:
-            colonne = int(input(f"Joueur {self.pseudo} choisissez une colonne : "))
+            colonne = input(f"Joueur {self.pseudo} choisissez une colonne : ")
+            while not colonne.isdigit():
+                print("Erreur : Veillez saisir un entier")
+                colonne = input(f"Joueur {self.pseudo} choisissez une colonne : ")
+            colonne = int(colonne)
         else:
             # TODO utiliser la méthode min-max pour choisir la colonne
             coups_possible = grille.coups_possible()
