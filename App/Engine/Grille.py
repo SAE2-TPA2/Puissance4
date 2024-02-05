@@ -26,9 +26,8 @@ class Grille:
 
     def grille_est_pleine(self):
         for colonne in self.grille:
-            for case in colonne:
-                if case is None:
-                    return False
+            if not self.colonne_est_pleine(colonne):
+                return False
         return True
 
     def get_case(self, ligne: int, colonne: int):
@@ -43,12 +42,19 @@ class Grille:
         if not (0 <= colonne < 7):
             raise IndexError("La colonne demandée n'existe pas")
         else:
-            for ligne in range(6):
-                if self.get_case(colonne, ligne) is None:
-                    self.grille[colonne][ligne] = jeton
-                    return
+            ligne_case_vide = 0
+            while ligne_case_vide < 6 and self.get_case(ligne_case_vide, colonne) is not None:
+                ligne_case_vide += 1
 
-            raise Exception("La colonne est pleine")
+            if ligne_case_vide < 6:
+                self.grille[colonne][ligne_case_vide] = jeton
+            else:
+                raise Exception("La colonne est pleine")
+
+            # for ligne in range(6):
+            #     if self.get_case(colonne, ligne) is None:
+            #         self.grille[colonne][ligne] = jeton
+            #         return
 
     def est_gagnee(self) -> Jeton | None:
         """
@@ -104,4 +110,4 @@ class Grille:
         :param i: L'indice de la colonne à tester
         :return:
         """
-        return self.get_case(len(self.grille[0]) - 1, i) is not None
+        return self.get_case(len(self.get_colonne(0)) - 1, i) is not None
