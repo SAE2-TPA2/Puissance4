@@ -31,9 +31,10 @@ class Partie:
         ordre_joueurs = [self.joueur_1, self.joueur_2]
         shuffle(ordre_joueurs)
 
-        while self.grille.est_gagnee() is None \
-                or self.grille.grille_est_pleine():
+        numero_colonne_joue = 0
+        partie_terminee = False
 
+        while not partie_terminee:
             joueur_du_tour = ordre_joueurs[self.nb_tour % 2]
 
             print(self.grille)
@@ -48,12 +49,14 @@ class Partie:
 
             # Place le jeton du joueur dans la colonne choisie
             self.grille.placer_pion(numero_colonne_joue, jeton_joue)
-
             self.nb_tour += 1
 
-        if self.grille.est_gagnee() == "Croix":
+            partie_terminee = self.grille.est_gagnee(numero_colonne_joue) is not None \
+                                or self.grille.grille_est_pleine()
+
+        if isinstance(self.grille.est_gagnee(numero_colonne_joue), Croix):
             print("Le joueur ", self.joueur_1.get_pseudo(), "remporte la partie !")
-        elif self.grille.est_gagnee() == "Rond":
+        elif isinstance(self.grille.est_gagnee(numero_colonne_joue), Rond):
             print("Le joueur ", self.joueur_2.get_pseudo(), "remporte la partie !")
         else:
             print("Égalité, aucun joueur ne remporte la partie")
