@@ -56,7 +56,7 @@ class Grille:
             #         self.grille[colonne][ligne] = jeton
             #         return
 
-    def est_gagnee(self, indice_dernier_jeton: int) -> Jeton | None:
+    def est_gagnee(self, indice_colonne_dernier_jeton: int) -> Jeton | None:
         """
         Détermine si la grille est dite gagnée : quatre
         jetons d'un joueur alignés.
@@ -71,8 +71,40 @@ class Grille:
         :return: si la partie est gagnée par le pion joué
         """
 
-        # 1. Analyse horizontale
+        dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
+        caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
+        type_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
+        nombre_pion_joue = 0
 
+        # Analyse par ligne (verticale)
+        for case in self.get_colonne(indice_colonne_dernier_jeton):
+            if case is None:
+                continue
+
+            if case.get_caractere() == caractere_dernier_jeton:
+                nombre_pion_joue += 1
+
+                if nombre_pion_joue == 4:
+                    return case
+            else:
+                break
+
+        nombre_pion_joue = 0
+
+        # Analyse par colonne (horizontale)
+        for colonne in range(len(self.grille) - 1):
+            case_analysee = self.get_case(dernier_jeton, colonne)
+
+            if case_analysee is None:
+                continue
+
+            if case_analysee.get_caractere() == caractere_dernier_jeton:
+                nombre_pion_joue += 1
+
+                if nombre_pion_joue == 4:
+                    return case_analysee
+
+        # Analyse des diagonales
         
 
         return None  # TODO STUB
