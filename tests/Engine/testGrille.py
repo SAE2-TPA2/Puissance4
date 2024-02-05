@@ -45,11 +45,11 @@ class TestGrille(unittest.TestCase):
 
         # Test de placement d'un jeton dans une colonne vide
         grille.placer_pion(0, rond)
-        self.assertEqual(grille.get_case(0, 0), rond.__class__())
+        self.assertEqual(grille.get_case(0, 0), rond)
 
         # Test de placement d'un jeton sur un autre jeton
         grille.placer_pion(0, croix)
-        self.assertEqual(grille.get_case(1, 0), croix.__class__())
+        self.assertEqual(grille.get_case(1, 0), croix)
 
         # Test de placement d'un jeton dans une colonne pleine
         grille = Grille()
@@ -75,14 +75,14 @@ class TestGrille(unittest.TestCase):
         for colonne in range(4):
             grille.placer_pion(colonne, rond)
 
-        print(grille)
+        self.assertEqual(rond, grille.est_gagnee(3), "Les pion ronds doivent gagner")
 
     def test_grille_est_pleine(self):
         grille = Grille()
         self.assertFalse(grille.grille_est_pleine())
-        for i in range(7):
-            for j in range(6):
-                grille.placer_pion(j, Rond())
+        for colonne in range(7):
+            for ligne in range(6):
+                grille.placer_pion(colonne, Rond())
         self.assertTrue(grille.grille_est_pleine())
 
     def test_dernier_pion_colonne(self):

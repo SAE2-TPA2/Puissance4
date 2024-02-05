@@ -27,10 +27,10 @@ if __name__ == '__main__':
             partie = Partie()
         case "2":
             print("Joueur vs IA")
-            partie = Partie(joueur_2_ia=True)
+            partie = Partie(joueur_2_est_ia=True)
         case "3":
             print("IA vs IA")
-            partie = Partie(joueur_1_ia=True, joueur_2_ia=True)
+            partie = Partie(joueur_1_est_ia=True, joueur_2_est_ia=True)
         case "4":
             print("Au revoir !")
             exit(0)

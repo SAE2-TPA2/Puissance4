@@ -25,7 +25,7 @@ class Grille:
         return ligne
 
     def grille_est_pleine(self):
-        for colonne in self.grille:
+        for colonne in range(len(self.grille) - 1):
             if not self.colonne_est_pleine(colonne):
                 return False
         return True
@@ -49,14 +49,14 @@ class Grille:
             if ligne_case_vide < 6:
                 self.grille[colonne][ligne_case_vide] = jeton
             else:
-                raise Exception("La colonne est pleine")
+                raise Exception(f"La colonne n° {ligne_case_vide} est pleine")
 
             # for ligne in range(6):
             #     if self.get_case(colonne, ligne) is None:
             #         self.grille[colonne][ligne] = jeton
             #         return
 
-    def est_gagnee(self) -> Jeton | None:
+    def est_gagnee(self, indice_dernier_jeton: int) -> Jeton | None:
         """
         Détermine si la grille est dite gagnée : quatre
         jetons d'un joueur alignés.
@@ -73,11 +73,7 @@ class Grille:
 
         # 1. Analyse horizontale
 
-        for y in self.get_grille():
-
-            for x in y:
-                pass
-#                print(f"{x}\t{y}")
+        
 
         return None  # TODO STUB
 
