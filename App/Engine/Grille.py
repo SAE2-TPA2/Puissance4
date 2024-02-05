@@ -117,3 +117,10 @@ class Grille:
                 return i
 
         return None
+
+    def __deepcopy__(self, memodict=None):
+        if memodict is None:
+            memodict = {}
+        grille = Grille()
+        grille.grille = [col.copy() for col in self.grille]
+        return grille
