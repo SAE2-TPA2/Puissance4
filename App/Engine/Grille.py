@@ -56,7 +56,7 @@ class Grille:
             #         self.grille[colonne][ligne] = jeton
             #         return
 
-    def est_gagnee(self) -> Jeton | None:
+    def est_gagnee(self, indice_dernier_jeton: int) -> Jeton | None:
         """
         Détermine si la grille est dite gagnée : quatre
         jetons d'un joueur alignés.
@@ -73,11 +73,7 @@ class Grille:
 
         # 1. Analyse horizontale
 
-        for y in self.get_grille():
-
-            for x in y:
-                pass
-#                print(f"{x}\t{y}")
+        
 
         return None  # TODO STUB
 
