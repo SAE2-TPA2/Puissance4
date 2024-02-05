@@ -25,7 +25,7 @@ class Grille:
         return ligne
 
     def grille_est_pleine(self):
-        for colonne in self.grille:
+        for colonne in range(len(self.grille) - 1):
             if not self.colonne_est_pleine(colonne):
                 return False
         return True
@@ -49,7 +49,7 @@ class Grille:
             if ligne_case_vide < 6:
                 self.grille[colonne][ligne_case_vide] = jeton
             else:
-                raise Exception("La colonne est pleine")
+                raise Exception(f"La colonne n° {ligne_case_vide} est pleine")
 
             # for ligne in range(6):
             #     if self.get_case(colonne, ligne) is None:
