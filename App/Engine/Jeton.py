@@ -14,6 +14,9 @@ class Jeton:
 
         return self.caractere == other.caractere
 
+    def __repr__(self):
+        return f"Jeton({self.caractere})"
+
 
 class Rond(Jeton):
     def __init__(self):
