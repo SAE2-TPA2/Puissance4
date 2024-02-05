@@ -21,6 +21,7 @@ if __name__ == '__main__':
         choix = input("Votre choix : ")
 
     partie = None
+
     match choix:
         case "1":
             print("Joueur vs Joueur")
