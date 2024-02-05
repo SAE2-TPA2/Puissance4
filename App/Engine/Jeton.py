@@ -8,6 +8,12 @@ class Jeton:
     def __str__(self):
         return self.caractere
 
+    def __eq__(self, other):
+        if not isinstance(other, Jeton):
+            return False
+
+        return self.caractere == other.caractere
+
 
 class Rond(Jeton):
     def __init__(self):
