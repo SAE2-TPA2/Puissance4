@@ -111,3 +111,15 @@ class Grille:
         :return:
         """
         return self.get_case(len(self.get_colonne(0)) - 1, i) is not None
+
+    def dernier_pion_colonne(self, indice_colonne: int):
+        """
+        retourne l'indice de la ligne du dernier pion dans la colonne
+        :param indice_colonne:
+        :return: indice du dernier pion dans la colonne
+        """
+        for i in range(5, -1, -1):
+            if self.grille[indice_colonne][i] is not None:
+                return i
+
+        return None
