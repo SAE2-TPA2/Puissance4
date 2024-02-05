@@ -106,10 +106,9 @@ class Grille:
 
         # Analyse des diagonales
         
-
         return None  # TODO STUB
 
-    def coups_possible(self)->list[int]:
+    def coups_possible(self) -> list[int]:
         """
         Retourne la liste des colonnes où un coup est possible
         :return: liste des colonnes où un coup est possible
@@ -132,7 +131,7 @@ class Grille:
 
         return affichage
 
-    def colonne_est_pleine(self, i)->bool:
+    def colonne_est_pleine(self, i) -> bool:
         """
         Retourne True si la colonne est pleine False sinon
         :param i: L'indice de la colonne à tester
