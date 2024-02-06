@@ -46,12 +46,13 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Jeton, pion_adverse: Jeto
     :param pion_adverse: Le pion de l'adversaire
     :param qui_joue: Le pion qui joue
     :param coup_joue: Le coup joué qui a mené à cette grille
-    :return: Un tuple qui contient le coup à jouer et la valeur de la grille. Sous la forme (coup, valeur)
+    :return: Un tuple qui contient le coup à jouer et la valeur de la grille.
+    Sous la forme (coup, valeur)
     """
     jeton_gagnant = grille.est_gagnee(0)
     if jeton_gagnant == mon_pion:
         return coup_joue, 100
-    elif jeton_gagnant == pion_adverse:
+    if jeton_gagnant == pion_adverse:
         return coup_joue, -100
 
     if grille.grille_est_pleine():
@@ -62,12 +63,17 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Jeton, pion_adverse: Jeto
 
     coups_possible = grille.coups_possible()
     grille_fille: list[tuple[int, int]] = []
-    for coup in coups_possible:
-        grille_fille.append(min_max(grille, profondeur - 1, mon_pion, pion_adverse, pion_adverse, coup))
 
     if qui_joue == mon_pion:
+        for coup in coups_possible:
+            grille_fille.append(min_max(grille.__deepcopy__().placer_pion(coup, qui_joue), profondeur - 1, mon_pion,
+                                        pion_adverse, pion_adverse, coup))
         return max_tuple(grille_fille)
-    # else
+
+    # else qui_joue == pion_adverse
+    for coup in coups_possible:
+        grille_fille.append(min_max(grille.__deepcopy__().placer_pion(coup, qui_joue), profondeur - 1, mon_pion,
+                                    pion_adverse, mon_pion, coup))
     return min_tuple(grille_fille)
 
 
