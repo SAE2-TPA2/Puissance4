@@ -2,30 +2,17 @@ from app.engine import Grille
 from app.engine.Jeton import Jeton
 
 
-def est_terminal(grille)->bool:
-    pass
-
-
-def min_max(grille: Grille, mon_pion: Jeton, pion_qui_joue: Jeton) -> int:
+def min_max(grille: Grille, mon_pion: Jeton, pion_adverse: Jeton, pion_qui_joue: Jeton, profondeur: int = 7) -> int:
     """
     Méthode min-max pour choisir la colonne à jouer
+    :param pion_adverse:
+    :param profondeur: La profondeur de recherche
     :param pion_qui_joue:
     :param mon_pion:
     :param grille: la grille du jeu
     :return: L'indice de la colonne à jouer
     """
-    if est_terminal(grille):
-        return evaluation(grille, mon_pion, pion_qui_joue)
-    else:
-        coups_possible = grille.coups_possible()
-        coups_possible_valeur = []
-        for etat in coups_possible:
-            coups_possible_valeur.append(min_max(etat, mon_pion, pion_qui_joue))
-            
-        if pion_qui_joue == mon_pion:
-            return max(coups_possible_valeur)
-        else:
-            return min(coups_possible_valeur)
+    pass
 
 
 def evaluation(grille: Grille, mon_pion: Jeton, pion_qui_joue: Jeton) -> int:
@@ -36,7 +23,16 @@ def evaluation(grille: Grille, mon_pion: Jeton, pion_qui_joue: Jeton) -> int:
     :param grille: la grille du jeu
     :return: la valeur de la grille
     """
-    pass
+    resultat = grille.est_gagnee()
+    if resultat == mon_pion:  # J'ai gagné
+        return 100
+    elif resultat is not None:  # L'adversaire a gagné
+        return -100
+
+    if grille.grille_est_pleine():
+        return 0  # Match nul
+
+    return 0  # STUB
 
 
 def etat_suivant(grille: Grille, pion: Jeton) -> list[Grille]:

@@ -4,7 +4,7 @@ from random import shuffle
 
 
 class Joueur:
-    def __init__(self, pseudo: str, jeton: Rond | Croix, est_humain: bool = True):
+    def __init__(self, pseudo: str, jeton: Jeton, est_humain: bool = True):
         self.pseudo = pseudo
         self.jeton = jeton
         self.est_humain = est_humain
@@ -36,6 +36,7 @@ class Joueur:
             coups_possible = grille.coups_possible()
             shuffle(coups_possible)
             colonne = coups_possible[0]
+            print(f"Joueur IA {self.pseudo} joue la colonne {colonne}")
         return colonne
 
     def __str__(self):
