@@ -260,7 +260,7 @@ class Grille:
         Retourne la liste des colonnes où un coup est possible
         :return: liste des colonnes où un coup est possible
         """
-        return [i for i in range(len(self.grille) - 1) if not self.colonne_est_pleine(i)]
+        return [i for i in range(len(self.grille)) if not self.colonne_est_pleine(i)]
 
     def __str__(self):
         affichage = " ___" * (len(self.grille)) + "\n"
