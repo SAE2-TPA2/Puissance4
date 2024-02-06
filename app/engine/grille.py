@@ -132,7 +132,7 @@ class Grille:
                     or self.get_case(dernier_jeton, x).get_caractere() != caractere_dernier_jeton:
                 break
 
-            if self.get_case(dernier_jeton, x).get_caractere() == caractere_dernier_jeton:
+            else:
                 nombre_pion_joue += 1
 
         x = indice_colonne_dernier_jeton
@@ -144,7 +144,7 @@ class Grille:
                     or self.get_case(dernier_jeton, x).get_caractere() != caractere_dernier_jeton:
                 break
 
-            if self.get_case(dernier_jeton, x).get_caractere() == caractere_dernier_jeton:
+            else:
                 nombre_pion_joue += 1
 
         return nombre_pion_joue, self.get_case(dernier_jeton, x)
