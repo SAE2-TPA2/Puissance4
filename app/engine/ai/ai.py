@@ -37,7 +37,7 @@ def max_tuple(fils: list[tuple[int, int]]) -> tuple[int, int]:
 
 
 def min_max(grille: Grille, profondeur: int, mon_pion: Jeton, pion_adverse: Jeton, qui_joue: Jeton,
-            coup_joue: int)->tuple[int, int]:
+            coup_joue: int | None = None)->tuple[int, int]:
     """
     Méthode min-max pour choisir la colonne à jouer
     :param grille: La grille du jeu
@@ -49,30 +49,35 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Jeton, pion_adverse: Jeto
     :return: Un tuple qui contient le coup à jouer et la valeur de la grille.
     Sous la forme (coup, valeur)
     """
-    jeton_gagnant = grille.est_gagnee(0)
-    if jeton_gagnant == mon_pion:
-        return coup_joue, 100
-    if jeton_gagnant == pion_adverse:
-        return coup_joue, -100
+    if coup_joue is not None:  # Au premier appel coup_joue est None.
+        jeton_gagnant = grille.est_gagnee(coup_joue)
+        if jeton_gagnant == mon_pion:
+            return coup_joue, 100
+        if jeton_gagnant == pion_adverse:
+            return coup_joue, -100
 
-    if grille.grille_est_pleine():
-        return coup_joue, 0
+        if grille.grille_est_pleine():
+            return coup_joue, 0
 
-    if profondeur == 0:
-        return coup_joue, evaluation(grille, mon_pion, qui_joue)
+        if profondeur == 0:
+            return coup_joue, evaluation(grille, coup_joue)
 
     coups_possible = grille.coups_possible()
     grille_fille: list[tuple[int, int]] = []
 
     if qui_joue == mon_pion:
         for coup in coups_possible:
-            grille_fille.append(min_max(grille.__deepcopy__().placer_pion(coup, qui_joue), profondeur - 1, mon_pion,
+            new_grille = grille.__deepcopy__()
+            new_grille.placer_pion(coup, qui_joue)
+            grille_fille.append(min_max(new_grille, profondeur - 1, mon_pion,
                                         pion_adverse, pion_adverse, coup))
         return max_tuple(grille_fille)
 
     # else qui_joue == pion_adverse
     for coup in coups_possible:
-        grille_fille.append(min_max(grille.__deepcopy__().placer_pion(coup, qui_joue), profondeur - 1, mon_pion,
+        new_grille = grille.__deepcopy__()
+        new_grille.placer_pion(coup, qui_joue)
+        grille_fille.append(min_max(new_grille, profondeur - 1, mon_pion,
                                     pion_adverse, mon_pion, coup))
     return min_tuple(grille_fille)
 
@@ -80,6 +85,7 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Jeton, pion_adverse: Jeto
 def evaluation(grille: Grille, indice_colonne_jeton_joue: int) -> int:
     """
     Fonction d'évaluation pour la méthode min-max
+    :param indice_colonne_jeton_joue:
     :param pion_qui_joue: Le pion qui joue
     :param mon_pion: Mon pion
     :param grille: la grille du jeu

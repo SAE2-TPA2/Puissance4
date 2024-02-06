@@ -286,7 +286,11 @@ class Grille:
         return [i for i in range(len(self.grille)) if not self.colonne_est_pleine(i)]
 
     def __str__(self):
-        affichage = " ___" * (len(self.grille)) + "\n"
+        affichage = ""
+        for i in range(len(self.grille)):
+            affichage += f"  {i} "
+
+        affichage += "\n" + " ___" * (len(self.grille)) + "\n"
 
         for lig in range(len(self.get_colonne(0)) - 1, -1, -1):
             for col in range(len(self.get_grille())):

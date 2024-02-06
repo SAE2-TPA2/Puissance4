@@ -1,6 +1,6 @@
 from app.engine.jeton import Rond, Croix
 from app.engine.grille import Grille
-from random import shuffle
+from app.engine.ai.ai import min_max
 
 
 class Joueur:
@@ -32,10 +32,7 @@ class Joueur:
                 colonne = input(f"Joueur {self.pseudo} choisissez une colonne : ")
             colonne = int(colonne)
         else:
-            # TODO utiliser la méthode min-max pour choisir la colonne
-            coups_possible = grille.coups_possible()
-            shuffle(coups_possible)
-            colonne = coups_possible[0]
+            colonne = min_max(grille, 4, self.jeton, Rond() if self.jeton == Croix() else Croix(), self.jeton)[0]
         return colonne
 
     def __str__(self):
