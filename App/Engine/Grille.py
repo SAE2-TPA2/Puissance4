@@ -73,7 +73,6 @@ class Grille:
 
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
         caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
-        type_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
         nombre_pion_joue = 0
 
         # Analyse par ligne (verticale)
@@ -104,7 +103,43 @@ class Grille:
                 if nombre_pion_joue == 4:
                     return case_analysee
 
-        # Analyse des diagonales
+        # Analyse de la diagonale NO - SE (\)
+        x = indice_colonne_dernier_jeton
+        y = dernier_jeton
+        nombre_pion_joue = 1
+
+        while x < 0 and y > 5:
+            x -= 1
+            y += 1
+
+            if self.get_case(y, x) is None \
+                    or self.get_case(y, x).get_caractere() != caractere_dernier_jeton:
+
+                break
+
+            else:
+                nombre_pion_joue += 1
+
+        x = indice_colonne_dernier_jeton
+        y = dernier_jeton
+
+        while x < 5 and y > 0:
+            x += 1
+            y -= 1
+
+            if self.get_case(y, x) is None \
+                    or self.get_case(y, x).get_caractere() != caractere_dernier_jeton:
+
+                break
+
+            else:
+                nombre_pion_joue += 1
+
+        if nombre_pion_joue == 4:
+            return self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
+
+        # TODO: analyse SO - NE
+        # TODO: opti?
         
         return None  # TODO STUB
 
