@@ -33,6 +33,7 @@ class Partie:
 
         numero_colonne_joue = 0
         partie_terminee = False
+        grille_est_gagnee = False
 
         while not partie_terminee:
             joueur_du_tour = ordre_joueurs[self.nb_tour % 2]
@@ -51,12 +52,14 @@ class Partie:
             self.grille.placer_pion(numero_colonne_joue, jeton_joue)
             self.nb_tour += 1
 
-            partie_terminee = self.grille.est_gagnee(numero_colonne_joue) is not None \
+            grille_est_gagnee = self.grille.est_gagnee(numero_colonne_joue)
+
+            partie_terminee = grille_est_gagnee is not None \
                                 or self.grille.grille_est_pleine()
 
-        if isinstance(self.grille.est_gagnee(numero_colonne_joue), Croix):
+        if isinstance(grille_est_gagnee, Croix):
             print("Le joueur ", self.joueur_1.get_pseudo(), "remporte la partie !")
-        elif isinstance(self.grille.est_gagnee(numero_colonne_joue), Rond):
+        elif isinstance(grille_est_gagnee, Rond):
             print("Le joueur ", self.joueur_2.get_pseudo(), "remporte la partie !")
         else:
             print("Égalité, aucun joueur ne remporte la partie")
