@@ -63,3 +63,4 @@ class Partie:
             print("Le joueur ", self.joueur_2.get_pseudo(), "remporte la partie !")
         else:
             print("Égalité, aucun joueur ne remporte la partie")
+        print(self.grille)
