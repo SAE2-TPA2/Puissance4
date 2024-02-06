@@ -62,8 +62,7 @@ class Grille:
             raise IndexError("La ligne demandée n'existe pas")
         if not 0 <= colonne < 7:
             raise IndexError("La colonne demandée n'existe pas")
-        else:
-            return self.grille[colonne][ligne]
+        return self.grille[colonne][ligne]
 
     def placer_pion(self, colonne: int, jeton: Rond | Croix):
         """
@@ -277,7 +276,7 @@ class Grille:
         if sone[0] == 4 and sone[1] is not None:
             return sone[1]
 
-        # TODO: opti?
+        # peut etre les boucles sont optimisables
 
     def coups_possible(self) -> list[int]:
         """
