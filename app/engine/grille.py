@@ -56,12 +56,13 @@ class Grille:
             #         self.grille[colonne][ligne] = jeton
             #         return
 
-    def verification_verticale(self, indice_colonne_dernier_jeton: int):
+    def verification_verticale(self, indice_colonne_dernier_jeton: int) -> tuple[int, Jeton]:
         """
-        Vérification de la colonne du dernier jeton joué.
+        Mesure d'une potentielle série verticale, à partir de l'indice de colonne
+        du dernier jeton joué.
 
         :param indice_colonne_dernier_jeton:
-        :return: Le jeton gagnant si partie gagnée
+        :return: La taille et le jeton de la potentielle série
         """
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
         caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
@@ -69,7 +70,7 @@ class Grille:
         nombre_pion_joue = 1
         y = dernier_jeton
 
-        while y > 0:
+        while y > 0 and nombre_pion_joue < 4:
             y -= 1
 
             if self.get_case(y, indice_colonne_dernier_jeton) is None \
@@ -80,15 +81,15 @@ class Grille:
             else:
                 nombre_pion_joue += 1
 
-                if nombre_pion_joue == 4:
-                    return self.get_case(y, indice_colonne_dernier_jeton)
+        return nombre_pion_joue, self.get_case(y, indice_colonne_dernier_jeton)
 
-    def verification_horizontale(self, indice_colonne_dernier_jeton: int):
+    def verification_horizontale(self, indice_colonne_dernier_jeton: int) -> tuple[int, Jeton]:
         """
-        Vérification de la ligne du dernier jeton joué.
+        Mesure d'une potentielle série horizontale, à partir de l'indice de colonne
+        du dernier jeton joué.
 
         :param indice_colonne_dernier_jeton:
-        :return: Le jeton gagnant si partie gagnée
+        :return: La taille et le jeton de la potentielle série
         """
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
         caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
@@ -96,7 +97,7 @@ class Grille:
         nombre_pion_joue = 1
         x = indice_colonne_dernier_jeton
 
-        while x > 0:
+        while x > 0 and nombre_pion_joue < 4:
             x -= 1
 
             if self.get_case(dernier_jeton, x) is None \
@@ -106,12 +107,9 @@ class Grille:
             if self.get_case(dernier_jeton, x).get_caractere() == caractere_dernier_jeton:
                 nombre_pion_joue += 1
 
-                if nombre_pion_joue == 4:
-                    return self.get_case(dernier_jeton, x)
-
         x = indice_colonne_dernier_jeton
 
-        while x < 5:
+        while x < 5 and nombre_pion_joue < 4:
             x += 1
 
             if self.get_case(dernier_jeton, x) is None \
@@ -121,15 +119,15 @@ class Grille:
             if self.get_case(dernier_jeton, x).get_caractere() == caractere_dernier_jeton:
                 nombre_pion_joue += 1
 
-                if nombre_pion_joue == 4:
-                    return self.get_case(dernier_jeton, x)
+        return nombre_pion_joue, self.get_case(dernier_jeton, x)
 
-    def verification_diagonale_no_se(self, indice_colonne_dernier_jeton: int):
+    def verification_diagonale_no_se(self, indice_colonne_dernier_jeton: int) -> tuple[int, Jeton]:
         """
-        Vérification de la diagonale NO - SE du dernier jeton joué.
+        Mesure d'une potentielle série NO - SE, à partir de l'indice de colonne
+        du dernier jeton joué.
 
         :param indice_colonne_dernier_jeton:
-        :return: Le jeton gagnant si partie gagnée
+        :return: La taille et le jeton de la potentielle série
         """
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
         caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
@@ -138,7 +136,7 @@ class Grille:
         y = dernier_jeton
         nombre_pion_joue = 1
 
-        while x < 0 and y > 5:
+        while x < 0 and y > 5 and nombre_pion_joue < 4:
             x -= 1
             y += 1
 
@@ -153,7 +151,7 @@ class Grille:
         x = indice_colonne_dernier_jeton
         y = dernier_jeton
 
-        while x < 5 and y > 0:
+        while x < 5 and y > 0 and nombre_pion_joue < 4:
             x += 1
             y -= 1
 
@@ -165,15 +163,15 @@ class Grille:
             else:
                 nombre_pion_joue += 1
 
-        if nombre_pion_joue == 4:
-            return self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
+        return nombre_pion_joue, self.get_case(y, x)
 
     def verification_diagonale_so_ne(self, indice_colonne_dernier_jeton: int):
         """
-        Vérification de la diagonale SO - NE du dernier jeton joué.
+        Mesure d'une potentielle série SO - NE, à partir de l'indice de colonne
+        du dernier jeton joué.
 
         :param indice_colonne_dernier_jeton:
-        :return: Le jeton gagnant si partie gagnée
+        :return: La taille et le jeton de la potentielle série
         """
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
         caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
@@ -182,7 +180,7 @@ class Grille:
         y = dernier_jeton
         nombre_pion_joue = 1
 
-        while x > 0 and y > 0:
+        while x > 0 and y > 0 and nombre_pion_joue < 4:
             x -= 1
             y -= 1
 
@@ -197,7 +195,7 @@ class Grille:
         x = indice_colonne_dernier_jeton
         y = dernier_jeton
 
-        while x < 5 and y < 4:
+        while x < 5 and y < 4 and nombre_pion_joue < 4:
             x += 1
             y += 1
 
@@ -209,8 +207,7 @@ class Grille:
             else:
                 nombre_pion_joue += 1
 
-        if nombre_pion_joue == 4:
-            return self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
+        return nombre_pion_joue, self.get_case(y, x)
 
     def est_gagnee(self, indice_colonne_dernier_jeton: int) -> Jeton | None:
         """
@@ -232,26 +229,26 @@ class Grille:
         # Analyse par ligne (verticale)
         verticale = self.verification_verticale(indice_colonne_dernier_jeton)
 
-        if verticale is not None:
-            return verticale
+        if verticale[0] == 4 and verticale[1] is not None:
+            return verticale[1]
 
         # Analyse par colonne (horizontale)
         horizontale = self.verification_horizontale(indice_colonne_dernier_jeton)
 
-        if horizontale is not None:
-            return horizontale
+        if horizontale[0] == 4 and horizontale[1] is not None:
+            return horizontale[1]
 
         # Analyse de la diagonale NO - SE (\)
         nose = self.verification_diagonale_no_se(indice_colonne_dernier_jeton)
 
-        if nose is not None:
-            return nose
+        if nose[0] == 4 and nose[1] is not None:
+            return nose[1]
 
         # Analyse de la diagonale SO - NE (/)
         sone = self.verification_diagonale_so_ne(indice_colonne_dernier_jeton)
 
-        if sone is not None:
-            return sone
+        if sone[0] == 4 and sone[1] is not None:
+            return sone[1]
 
         # TODO: opti?
 
