@@ -1,4 +1,4 @@
-from App.Partie import Partie
+from app.Partie import Partie
 
 if __name__ == '__main__':
 

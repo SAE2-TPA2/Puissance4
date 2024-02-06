@@ -1,6 +1,6 @@
-from App.Engine.Jeton import Croix, Rond
-from App.Engine.Joueur import Joueur
-from App.Engine.Grille import Grille
+from app.engine.Jeton import Croix, Rond
+from app.engine.Joueur import Joueur
+from app.engine.Grille import Grille
 from random import shuffle
 
 

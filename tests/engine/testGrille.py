@@ -1,7 +1,7 @@
 import unittest
 
-from App.Engine.Grille import Grille
-from App.Engine.Jeton import Rond, Croix
+from app.engine.grille import Grille
+from app.engine.jeton import Rond, Croix
 
 
 class TestGrille(unittest.TestCase):

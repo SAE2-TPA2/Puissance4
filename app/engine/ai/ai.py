@@ -1,5 +1,5 @@
-from App.Engine import Grille
-from App.Engine.Jeton import Jeton
+from app.engine import Grille
+from app.engine.Jeton import Jeton
 
 
 def est_terminal(grille)->bool:

@@ -1,4 +1,4 @@
-from App.Engine.Jeton import Rond, Croix, Jeton
+from app.engine.jeton import Rond, Croix, Jeton
 
 
 class Grille:

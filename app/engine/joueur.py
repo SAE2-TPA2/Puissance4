@@ -1,5 +1,5 @@
-from App.Engine.Jeton import Rond, Croix
-from App.Engine.Grille import Grille
+from app.engine.Jeton import Rond, Croix
+from app.engine.Grille import Grille
 from random import shuffle
 
 

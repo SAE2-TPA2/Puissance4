@@ -1,5 +1,5 @@
 import unittest
-from App.Partie import Partie
+from app.partie import Partie
 
 
 class test_partie(unittest.case):
