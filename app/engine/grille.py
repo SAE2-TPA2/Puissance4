@@ -56,54 +56,84 @@ class Grille:
             #         self.grille[colonne][ligne] = jeton
             #         return
 
-    def est_gagnee(self, indice_colonne_dernier_jeton: int) -> Jeton | None:
+    def verification_verticale(self, indice_colonne_dernier_jeton: int):
         """
-        Détermine si la grille est dite gagnée : quatre
-        jetons d'un joueur alignés.
+        Vérification de la colonne du dernier jeton joué.
 
-        Analyse sur trois parties :
-        - Analyse horizontale
-        - Analyse verticale
-        - Analyse diagonale
-
-        TODO: appeler la méthode dans "jouer_pion()".
-
-        :return: si la partie est gagnée par le pion joué
+        :param indice_colonne_dernier_jeton:
+        :return: Le jeton gagnant si partie gagnée
         """
-
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
         caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
-        nombre_pion_joue = 0
 
-        # Analyse par ligne (verticale)
-        for case in self.get_colonne(indice_colonne_dernier_jeton):
-            if case is None:
-                continue
+        nombre_pion_joue = 1
+        y = dernier_jeton
 
-            if case.get_caractere() == caractere_dernier_jeton:
-                nombre_pion_joue += 1
+        while y > 0:
+            y -= 1
 
-                if nombre_pion_joue == 4:
-                    return case
-            else:
+            if self.get_case(y, indice_colonne_dernier_jeton) is None \
+                    or self.get_case(y, indice_colonne_dernier_jeton).get_caractere() != caractere_dernier_jeton:
+
                 break
 
-        nombre_pion_joue = 0
-
-        # Analyse par colonne (horizontale)
-        for colonne in range(len(self.grille) - 1):
-            case_analysee = self.get_case(dernier_jeton, colonne)
-
-            if case_analysee is None:
-                continue
-
-            if case_analysee.get_caractere() == caractere_dernier_jeton:
+            else:
                 nombre_pion_joue += 1
 
                 if nombre_pion_joue == 4:
-                    return case_analysee
+                    return self.get_case(y, indice_colonne_dernier_jeton)
 
-        # Analyse de la diagonale NO - SE (\)
+    def verification_horizontale(self, indice_colonne_dernier_jeton: int):
+        """
+        Vérification de la ligne du dernier jeton joué.
+
+        :param indice_colonne_dernier_jeton:
+        :return: Le jeton gagnant si partie gagnée
+        """
+        dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
+        caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
+
+        nombre_pion_joue = 1
+        x = indice_colonne_dernier_jeton
+
+        while x > 0:
+            x -= 1
+
+            if self.get_case(dernier_jeton, x) is None \
+                    or self.get_case(dernier_jeton, x).get_caractere() != caractere_dernier_jeton:
+                break
+
+            if self.get_case(dernier_jeton, x).get_caractere() == caractere_dernier_jeton:
+                nombre_pion_joue += 1
+
+                if nombre_pion_joue == 4:
+                    return self.get_case(dernier_jeton, x)
+
+        x = indice_colonne_dernier_jeton
+
+        while x < 5:
+            x += 1
+
+            if self.get_case(dernier_jeton, x) is None \
+                    or self.get_case(dernier_jeton, x).get_caractere() != caractere_dernier_jeton:
+                break
+
+            if self.get_case(dernier_jeton, x).get_caractere() == caractere_dernier_jeton:
+                nombre_pion_joue += 1
+
+                if nombre_pion_joue == 4:
+                    return self.get_case(dernier_jeton, x)
+
+    def verification_diagonale_no_se(self, indice_colonne_dernier_jeton: int):
+        """
+        Vérification de la diagonale NO - SE du dernier jeton joué.
+
+        :param indice_colonne_dernier_jeton:
+        :return: Le jeton gagnant si partie gagnée
+        """
+        dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
+        caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
+
         x = indice_colonne_dernier_jeton
         y = dernier_jeton
         nombre_pion_joue = 1
@@ -138,10 +168,92 @@ class Grille:
         if nombre_pion_joue == 4:
             return self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
 
-        # TODO: analyse SO - NE
+    def verification_diagonale_so_ne(self, indice_colonne_dernier_jeton: int):
+        """
+        Vérification de la diagonale SO - NE du dernier jeton joué.
+
+        :param indice_colonne_dernier_jeton:
+        :return: Le jeton gagnant si partie gagnée
+        """
+        dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
+        caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
+
+        x = indice_colonne_dernier_jeton
+        y = dernier_jeton
+        nombre_pion_joue = 1
+
+        while x > 0 and y > 0:
+            x -= 1
+            y -= 1
+
+            if self.get_case(y, x) is None \
+                    or self.get_case(y, x).get_caractere() != caractere_dernier_jeton:
+
+                break
+
+            else:
+                nombre_pion_joue += 1
+
+        x = indice_colonne_dernier_jeton
+        y = dernier_jeton
+
+        while x < 5 and y < 4:
+            x += 1
+            y += 1
+
+            if self.get_case(y, x) is None \
+                    or self.get_case(y, x).get_caractere() != caractere_dernier_jeton:
+
+                break
+
+            else:
+                nombre_pion_joue += 1
+
+        if nombre_pion_joue == 4:
+            return self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
+
+    def est_gagnee(self, indice_colonne_dernier_jeton: int) -> Jeton | None:
+        """
+        Détermine si la grille est dite gagnée : quatre
+        jetons d'un joueur alignés.
+
+        Analyse sur quatre parties :
+        - Analyse horizontale
+        - Analyse verticale
+        - Analyse diagonale NO - SE
+        - Analyse diagonale SO - NE
+
+        :return: si la partie est gagnée par le pion joué
+        """
+
+        dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
+        caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
+
+        # Analyse par ligne (verticale)
+        verticale = self.verification_verticale(indice_colonne_dernier_jeton)
+
+        if verticale is not None:
+            return verticale
+
+        # Analyse par colonne (horizontale)
+        horizontale = self.verification_horizontale(indice_colonne_dernier_jeton)
+
+        if horizontale is not None:
+            return horizontale
+
+        # Analyse de la diagonale NO - SE (\)
+        nose = self.verification_diagonale_no_se(indice_colonne_dernier_jeton)
+
+        if nose is not None:
+            return nose
+
+        # Analyse de la diagonale SO - NE (/)
+        sone = self.verification_diagonale_so_ne(indice_colonne_dernier_jeton)
+
+        if sone is not None:
+            return sone
+
         # TODO: opti?
-        
-        return None  # TODO STUB
 
     def coups_possible(self) -> list[int]:
         """
