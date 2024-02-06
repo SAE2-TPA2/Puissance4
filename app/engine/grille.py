@@ -15,12 +15,12 @@ class Grille:
 
     def get_colonne(self, colonne: int):
         if not (0 <= colonne < 7):
-            raise IndexError("La colonne demandée n'éxiste pas")
+            raise IndexError("La colonne demandée n'existe pas")
         return self.grille[colonne]
 
     def get_ligne(self, ligne: int):
         if not (0 <= ligne < 6):
-            raise IndexError("La ligne demandée n'éxiste pas")
+            raise IndexError("La ligne demandée n'existe pas")
         ligne = [col[ligne] for col in self.grille]
         return ligne
 
