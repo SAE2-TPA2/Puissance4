@@ -1,9 +1,41 @@
-from app.engine import Grille
-from app.engine.Jeton import Jeton
+from app.engine.grille import Grille
+from app.engine.jeton import Jeton
 
 
-def est_terminal(grille)->bool:
+def est_terminal(grille) -> bool:
     pass
+
+
+def min(fils: list[tuple[int, int]]) -> tuple[int, int]:
+    """
+    Retourne le minimum d'une liste de tuple
+    Les tuples sont de la forme (coups, valeur)
+    :param fils:
+    :return:
+    """
+    min_valeur = fils[0][1]
+    min_coup = fils[0][0]
+    for coup, valeur in fils:
+        if valeur < min_valeur:
+            min_valeur = valeur
+            min_coup = coup
+    return min_coup, min_valeur
+
+
+def max(fils: list[tuple[int, int]]) -> tuple[int, int]:
+    """
+    Retourne le maximum d'une liste de tuple
+    Les tuples sont de la forme (coups, valeur)
+    :param fils:
+    :return:
+    """
+    max_valeur = fils[0][1]
+    max_coup = fils[0][0]
+    for coup, valeur in fils:
+        if max_valeur < valeur:
+            max_valeur = valeur
+            max_coup = coup
+    return max_coup, max_valeur
 
 
 def min_max(grille: Grille, mon_pion: Jeton, pion_qui_joue: Jeton) -> int:
@@ -21,7 +53,7 @@ def min_max(grille: Grille, mon_pion: Jeton, pion_qui_joue: Jeton) -> int:
         coups_possible_valeur = []
         for etat in coups_possible:
             coups_possible_valeur.append(min_max(etat, mon_pion, pion_qui_joue))
-            
+
         if pion_qui_joue == mon_pion:
             return max(coups_possible_valeur)
         else:
