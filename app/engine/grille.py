@@ -66,8 +66,6 @@ class Grille:
         - Analyse verticale
         - Analyse diagonale
 
-        TODO: appeler la méthode dans "jouer_pion()".
-
         :return: si la partie est gagnée par le pion joué
         """
 
@@ -138,7 +136,41 @@ class Grille:
         if nombre_pion_joue == 4:
             return self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
 
-        # TODO: analyse SO - NE
+        # Analyse de la diagonale SO - NE (/)
+        x = indice_colonne_dernier_jeton
+        y = dernier_jeton
+        nombre_pion_joue = 1
+
+        while x > 0 and y > 0:
+            x -= 1
+            y -= 1
+
+            if self.get_case(y, x) is None \
+                    or self.get_case(y, x).get_caractere() != caractere_dernier_jeton:
+
+                break
+
+            else:
+                nombre_pion_joue += 1
+
+        x = indice_colonne_dernier_jeton
+        y = dernier_jeton
+
+        while x < 5 and y < 4:
+            x += 1
+            y += 1
+
+            if self.get_case(y, x) is None \
+                    or self.get_case(y, x).get_caractere() != caractere_dernier_jeton:
+
+                break
+
+            else:
+                nombre_pion_joue += 1
+
+        if nombre_pion_joue == 4:
+            return self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
+
         # TODO: opti?
         
         return None  # TODO STUB
