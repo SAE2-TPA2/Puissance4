@@ -129,6 +129,22 @@ class TestGrille(unittest.TestCase):
 
         self.assertEqual(rond, grille.est_gagnee(2), "Les pion ronds doivent gagner")
 
+    def test_est_gagnee(self):
+        grille = Grille()
+        rond = Rond()
+        croix = Croix()
+
+        # On remplie la première ligne pour faire une "base" pour la deuxième ligne que l'on va remplir
+        for colonne in range(3, 6):
+            grille.placer_pion(colonne, rond)
+        grille.placer_pion(6, croix)
+
+        # La ligne de la victoire est sur le deuxième ligne en partant du bas
+        for colonne in range(3, 7):
+            grille.placer_pion(colonne, rond)
+        print(grille)
+        self.assertEqual(rond, grille.est_gagnee(6), "Les pion ronds doivent gagner")
+
     def test_grille_est_pleine(self):
         grille = Grille()
         self.assertFalse(grille.grille_est_pleine())
@@ -143,3 +159,11 @@ class TestGrille(unittest.TestCase):
         for i in range(6):
             grille.placer_pion(1, Rond())
             self.assertEqual(i, grille.dernier_pion_colonne(1))
+
+    def test_coups_possible(self):
+        grille = Grille()
+        self.assertEqual([0, 1, 2, 3, 4, 5, 6], grille.coups_possible())
+
+        for i in range(6):
+            grille.placer_pion(1, Rond())
+        self.assertTrue(1 not in grille.coups_possible())
