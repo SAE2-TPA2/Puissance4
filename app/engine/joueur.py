@@ -1,4 +1,4 @@
-from app.engine.jeton import Rond, Croix
+from app.engine.jeton import Rond, Croix, Jeton
 from app.engine.grille import Grille
 from app.engine.ai.ai import min_max
 
