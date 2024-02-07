@@ -77,10 +77,55 @@ class TestGrille(unittest.TestCase):
 
         self.assertEqual(rond, grille.est_gagnee(3), "Les pion ronds doivent gagner")
 
+    def test_est_gagnee_horizontal_seconde_ligne(self):
+        grille = Grille()
+        rond = Rond()
+        croix = Croix()
+
+        for colonne in range(2):
+            grille.placer_pion(colonne, croix)
+
+        for colonne in range(2, 4):
+            grille.placer_pion(colonne, rond)
+
+        for colonne in range(4):
+            grille.placer_pion(colonne, rond)
+
+        self.assertEqual(rond, grille.est_gagnee(3), "Les pion ronds doivent gagner")
+
+    def test_est_gagnee_horizontal_seconde_ligne_droite(self):
+        grille = Grille()
+        rond = Rond()
+        croix = Croix()
+
+        grille.placer_pion(3, croix)
+        grille.placer_pion(4, croix)
+        grille.placer_pion(5, rond)
+        grille.placer_pion(6, rond)
+
+        grille.placer_pion(3, rond)
+        grille.placer_pion(4, rond)
+        grille.placer_pion(5, rond)
+        grille.placer_pion(6, rond)
+
+        self.assertEqual(rond, grille.est_gagnee(6), "Les pion ronds doivent gagner")
+
     def test_est_gagnee_vertical(self):
         grille = Grille()
         rond = Rond()
         croix = Croix()
+
+        for _ in range(4):
+            grille.placer_pion(0, rond)
+
+        self.assertEqual(rond, grille.est_gagnee(0), "Les pion ronds doivent gagner")
+
+    def test_est_gagnee_vertical_seconde_ligne(self):
+        grille = Grille()
+        rond = Rond()
+        croix = Croix()
+
+        grille.placer_pion(0, croix)
 
         for _ in range(4):
             grille.placer_pion(0, rond)
@@ -139,7 +184,12 @@ class TestGrille(unittest.TestCase):
 
     def test_dernier_pion_colonne(self):
         grille = Grille()
+
         self.assertEqual(None, grille.dernier_pion_colonne(1))
-        for i in range(6):
+
+        for _ in range(5):
             grille.placer_pion(1, Rond())
-            self.assertEqual(i, grille.dernier_pion_colonne(1))
+
+        grille.placer_pion(1, Croix())
+
+        self.assertEqual(5, grille.dernier_pion_colonne(1))
