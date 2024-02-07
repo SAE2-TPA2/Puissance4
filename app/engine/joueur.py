@@ -27,12 +27,16 @@ class Joueur:
         """
         if self.est_humain:
             colonne = input(f"Joueur {self.pseudo} choisissez une colonne : ")
+
             while not colonne.isdigit():
                 print("Erreur : Veillez saisir un entier")
                 colonne = input(f"Joueur {self.pseudo} choisissez une colonne : ")
+
             colonne = int(colonne)
         else:
-            colonne = min_max(grille, 4, self.jeton, Rond() if self.jeton == Croix() else Croix(), self.jeton)[0]
+            nouveau_jeton = Rond() if self.jeton == Croix() else Croix()
+            colonne = min_max(grille, 4, self.jeton, nouveau_jeton, self.jeton)[0]
+                
         return colonne
 
     def __str__(self):
