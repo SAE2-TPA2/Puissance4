@@ -119,8 +119,7 @@ class Grille:
         :return: La taille et le jeton de la potentielle série
         """
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
-        caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
-        caractere_dernier_jeton = caractere_dernier_jeton.get_caractere()
+        caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
 
         nombre_pion_joue = 1
         x = indice_colonne_dernier_jeton
@@ -130,6 +129,7 @@ class Grille:
 
             if self.get_case(dernier_jeton, x) is None \
                     or self.get_case(dernier_jeton, x).get_caractere() != caractere_dernier_jeton:
+
                 break
 
             else:
@@ -142,6 +142,7 @@ class Grille:
 
             if self.get_case(dernier_jeton, x) is None \
                     or self.get_case(dernier_jeton, x).get_caractere() != caractere_dernier_jeton:
+
                 break
 
             else:
@@ -234,7 +235,7 @@ class Grille:
 
         return nombre_pion_joue, self.get_case(y, x)
 
-    def est_gagnee(self, indice_colonne_dernier_jeton: int) -> Jeton | None:
+    def est_gagnee(self, indice_colonne_dernier_jeton: int|None = None) -> Jeton | None:
         """
         Détermine si la grille est dite gagnée : quatre
         jetons d'un joueur alignés.
@@ -248,6 +249,7 @@ class Grille:
         :return: si la partie est gagnée par le pion joué
         """
 
+        #if indice_colonne_dernier_jeton is not None:
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
         caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
         caractere_dernier_jeton = caractere_dernier_jeton.get_caractere()
@@ -275,6 +277,9 @@ class Grille:
 
         if sone[0] == 4 and sone[1] is not None:
             return sone[1]
+
+        #else:
+
 
         # peut etre les boucles sont optimisables
 
@@ -313,7 +318,7 @@ class Grille:
         """
         return self.get_case(len(self.get_colonne(0)) - 1, i) is not None
 
-    def dernier_pion_colonne(self, indice_colonne: int):
+    def dernier_pion_colonne(self, indice_colonne: int) -> int | None:
         """
         retourne l'indice de la ligne du dernier pion dans la colonne
         :param indice_colonne:
