@@ -132,8 +132,7 @@ class Grille:
 
                 break
 
-            else:
-                nombre_pion_joue += 1
+            nombre_pion_joue += 1
 
         x = indice_colonne_dernier_jeton
 
@@ -145,8 +144,7 @@ class Grille:
 
                 break
 
-            else:
-                nombre_pion_joue += 1
+            nombre_pion_joue += 1
 
         return nombre_pion_joue, self.get_case(dernier_jeton, x)
 
@@ -231,6 +229,7 @@ class Grille:
                     or self.get_case(y, x).get_caractere() != caractere_dernier_jeton:
 
                 break
+
             nombre_pion_joue += 1
 
         return nombre_pion_joue, self.get_case(y, x)
