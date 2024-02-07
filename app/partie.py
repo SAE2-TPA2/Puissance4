@@ -40,6 +40,7 @@ class Partie:
 
             if joueur_du_tour.get_est_humain():
                 print(self.grille)
+
             # Demande au joueur de choisir une colonne
             numero_colonne_joue = joueur_du_tour.choisir_colonne(self.grille)
             while numero_colonne_joue not in self.grille.coups_possible():
@@ -55,13 +56,12 @@ class Partie:
 
             grille_est_gagnee = self.grille.est_gagnee(numero_colonne_joue)
 
-            partie_terminee = grille_est_gagnee is not None \
-                                or self.grille.grille_est_pleine()
+            partie_terminee = grille_est_gagnee is not None or self.grille.grille_est_pleine()
 
-        if isinstance(grille_est_gagnee, Croix):
-            print("Le joueur ", self.joueur_1.get_pseudo(), "remporte la partie !")
-        elif isinstance(grille_est_gagnee, Rond):
-            print("Le joueur ", self.joueur_2.get_pseudo(), "remporte la partie !")
+        if grille_est_gagnee == self.joueur_1.get_jeton():
+            print("Le joueur", self.joueur_1.get_pseudo(), "remporte la partie !")
+        elif grille_est_gagnee == self.joueur_2.get_jeton():
+            print("Le joueur", self.joueur_2.get_pseudo(), "remporte la partie !")
         else:
             print("Égalité, aucun joueur ne remporte la partie")
         print(self.grille)
