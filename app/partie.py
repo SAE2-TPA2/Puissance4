@@ -38,7 +38,9 @@ class Partie:
         while not partie_terminee:
             joueur_du_tour = ordre_joueurs[self.nb_tour % 2]
 
-            print(self.grille)
+            if joueur_du_tour.get_est_humain():
+                print(self.grille)
+
             # Demande au joueur de choisir une colonne
             numero_colonne_joue = joueur_du_tour.choisir_colonne(self.grille)
             while numero_colonne_joue not in self.grille.coups_possible():
