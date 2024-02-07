@@ -137,7 +137,7 @@ class Grille:
 
         x = indice_colonne_dernier_jeton
 
-        while x < 5 and nombre_pion_joue < 4:
+        while x < 6 and nombre_pion_joue < 4:
             x += 1
 
             if self.get_case(dernier_jeton, x) is None \
@@ -180,7 +180,7 @@ class Grille:
         x = indice_colonne_dernier_jeton
         y = dernier_jeton
 
-        while x < 5 and y > 0 and nombre_pion_joue < 4:
+        while x < 6 and y > 0 and nombre_pion_joue < 4:
             x += 1
             y -= 1
 
@@ -223,7 +223,7 @@ class Grille:
         x = indice_colonne_dernier_jeton
         y = dernier_jeton
 
-        while x < 5 and y < 4 and nombre_pion_joue < 4:
+        while x < 6 and y < 5 and nombre_pion_joue < 4:
             x += 1
             y += 1
 
