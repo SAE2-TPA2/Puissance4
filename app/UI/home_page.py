@@ -1,7 +1,9 @@
 import customtkinter as ctk
 
+from App.UI.settings_page import Settings
 
-class MainWindow(ctk.CTk):
+
+class home(ctk.CTk):
     def __init__(self):
         super().__init__()
 
@@ -14,13 +16,20 @@ class MainWindow(ctk.CTk):
         self.create_widgets()
 
     def player_vs_player(self):
-        print("Player vs Player selected")
+        self.destroy()
+        settings = Settings("Joueur vs Joueur")
+        settings.mainloop()
 
     def player_vs_ai(self):
-        print("Player vs AI selected")
+        self.destroy()
+        settings = Settings("Joueur vs IA")
+        settings.mainloop()
 
     def ai_vs_ai(self):
-        print("AI vs AI selected")
+        self.destroy()
+        settings = Settings("IA vs IA")
+        settings.mainloop()
+
 
     def create_widgets(self):
         self.title_label = ctk.CTkLabel(self, text="Puissance 4", font=("Arial", 24))
@@ -40,5 +49,5 @@ class MainWindow(ctk.CTk):
 
 
 if __name__ == "__main__":
-    window = MainWindow()
+    window = home()
     window.mainloop()
