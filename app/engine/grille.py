@@ -119,7 +119,9 @@ class Grille:
         :return: La taille et le jeton de la potentielle série
         """
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
-        caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
+
+        caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
+        caractere_dernier_jeton = caractere_dernier_jeton.get_caractere()
 
         nombre_pion_joue = 1
         x = indice_colonne_dernier_jeton

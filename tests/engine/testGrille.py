@@ -70,7 +70,6 @@ class TestGrille(unittest.TestCase):
     def test_est_gagnee_horizontal(self):
         grille = Grille()
         rond = Rond()
-        croix = Croix()
 
         for colonne in range(4):
             grille.placer_pion(colonne, rond)
@@ -113,7 +112,6 @@ class TestGrille(unittest.TestCase):
     def test_est_gagnee_vertical(self):
         grille = Grille()
         rond = Rond()
-        croix = Croix()
 
         for _ in range(4):
             grille.placer_pion(0, rond)

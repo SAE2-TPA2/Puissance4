@@ -36,7 +36,7 @@ class Joueur:
         else:
             nouveau_jeton = Rond() if self.jeton == Croix() else Croix()
             colonne = min_max(grille, 4, self.jeton, nouveau_jeton, self.jeton)[0]
-                
+
         return colonne
 
     def __str__(self):
