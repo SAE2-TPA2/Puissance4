@@ -40,12 +40,17 @@ class Partie:
 
             if joueur_du_tour.get_est_humain():
                 print(self.grille)
+            else:
+                print(f"L'IA {joueur_du_tour.get_pseudo()} réfléchit...")
 
             # Demande au joueur de choisir une colonne
             numero_colonne_joue = joueur_du_tour.choisir_colonne(self.grille)
             while numero_colonne_joue not in self.grille.coups_possible():
                 print("Erreur : Colonne pleine ou inexistante, veuillez choisir une autre colonne")
                 numero_colonne_joue = joueur_du_tour.choisir_colonne(self.grille)
+
+            if not joueur_du_tour.get_est_humain():
+                print(f"L'IA {joueur_du_tour.get_pseudo()} a choisi la colonne {numero_colonne_joue}")
 
             # Place le jeton du joueur
             jeton_joue: Rond | Croix = joueur_du_tour.get_jeton()
@@ -59,9 +64,9 @@ class Partie:
             partie_terminee = grille_est_gagnee is not None or self.grille.grille_est_pleine()
 
         if grille_est_gagnee == self.joueur_1.get_jeton():
-            print("Le joueur", self.joueur_1.get_pseudo(), "remporte la partie !")
+            print("Le joueur", self.joueur_1, "remporte la partie !")
         elif grille_est_gagnee == self.joueur_2.get_jeton():
-            print("Le joueur", self.joueur_2.get_pseudo(), "remporte la partie !")
+            print("Le joueur", self.joueur_2, "remporte la partie !")
         else:
             print("Égalité, aucun joueur ne remporte la partie")
         print(self.grille)

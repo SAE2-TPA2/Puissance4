@@ -8,7 +8,7 @@ class Joueur:
         self.pseudo = pseudo
         self.jeton = jeton
         self.est_humain = est_humain
-        self.profondeur = 5
+        self.profondeur = 6
 
     def get_pseudo(self):
         return self.pseudo
