@@ -119,7 +119,9 @@ class Grille:
         :return: La taille et le jeton de la potentielle série
         """
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
-        caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton).get_caractere()
+
+        caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
+        caractere_dernier_jeton = caractere_dernier_jeton.get_caractere()
 
         nombre_pion_joue = 1
         x = indice_colonne_dernier_jeton
@@ -133,12 +135,11 @@ class Grille:
 
                 break
 
-            else:
-                nombre_pion_joue += 1
+            nombre_pion_joue += 1
 
         x = indice_colonne_dernier_jeton
 
-        while x < 5 and nombre_pion_joue < 4:
+        while x < 6 and nombre_pion_joue < 4:
             x += 1
 
             if self.get_case(dernier_jeton, x) is None \
@@ -146,8 +147,7 @@ class Grille:
 
                 break
 
-            else:
-                nombre_pion_joue += 1
+            nombre_pion_joue += 1
 
         return nombre_pion_joue, self.get_case(dernier_jeton, x)
 
@@ -181,7 +181,7 @@ class Grille:
         x = indice_colonne_dernier_jeton
         y = dernier_jeton
 
-        while x < 5 and y > 0 and nombre_pion_joue < 4:
+        while x < 6 and y > 0 and nombre_pion_joue < 4:
             x += 1
             y -= 1
 
@@ -224,7 +224,7 @@ class Grille:
         x = indice_colonne_dernier_jeton
         y = dernier_jeton
 
-        while x < 5 and y < 4 and nombre_pion_joue < 4:
+        while x < 6 and y < 5 and nombre_pion_joue < 4:
             x += 1
             y += 1
 
@@ -232,6 +232,7 @@ class Grille:
                     or self.get_case(y, x).get_caractere() != caractere_dernier_jeton:
 
                 break
+
             nombre_pion_joue += 1
 
         return nombre_pion_joue, self.get_case(y, x)
