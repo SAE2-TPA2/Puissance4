@@ -1,7 +1,7 @@
+from random import shuffle
 from app.engine.jeton import Croix, Rond
 from app.engine.joueur import Joueur
 from app.engine.grille import Grille
-from random import shuffle
 
 
 class Partie:

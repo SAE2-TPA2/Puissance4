@@ -8,6 +8,7 @@ class Joueur:
         self.pseudo = pseudo
         self.jeton = jeton
         self.est_humain = est_humain
+        self.profondeur = 5
 
     def get_pseudo(self):
         return self.pseudo
@@ -27,12 +28,16 @@ class Joueur:
         """
         if self.est_humain:
             colonne = input(f"Joueur {self.pseudo} choisissez une colonne : ")
+
             while not colonne.isdigit():
                 print("Erreur : Veillez saisir un entier")
                 colonne = input(f"Joueur {self.pseudo} choisissez une colonne : ")
+
             colonne = int(colonne)
         else:
-            colonne = min_max(grille, 4, self.jeton, Rond() if self.jeton == Croix() else Croix(), self.jeton)[0]
+            nouveau_jeton = Rond() if self.jeton == Croix() else Croix()
+            colonne = min_max(grille, self.profondeur, self.jeton, nouveau_jeton, self.jeton)
+
         return colonne
 
     def __str__(self):

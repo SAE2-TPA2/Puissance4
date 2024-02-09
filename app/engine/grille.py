@@ -119,33 +119,35 @@ class Grille:
         :return: La taille et le jeton de la potentielle série
         """
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
+
         caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
         caractere_dernier_jeton = caractere_dernier_jeton.get_caractere()
 
         nombre_pion_joue = 1
         x = indice_colonne_dernier_jeton
 
+        # On regarde  à gauche pour une série de 4 jetons
         while x > 0 and nombre_pion_joue < 4:
             x -= 1
 
             if self.get_case(dernier_jeton, x) is None \
                     or self.get_case(dernier_jeton, x).get_caractere() != caractere_dernier_jeton:
+
                 break
 
-            else:
-                nombre_pion_joue += 1
+            nombre_pion_joue += 1
 
         x = indice_colonne_dernier_jeton
 
-        while x < 5 and nombre_pion_joue < 4:
+        while x < 6 and nombre_pion_joue < 4:
             x += 1
 
             if self.get_case(dernier_jeton, x) is None \
                     or self.get_case(dernier_jeton, x).get_caractere() != caractere_dernier_jeton:
+
                 break
 
-            else:
-                nombre_pion_joue += 1
+            nombre_pion_joue += 1
 
         return nombre_pion_joue, self.get_case(dernier_jeton, x)
 
@@ -179,7 +181,7 @@ class Grille:
         x = indice_colonne_dernier_jeton
         y = dernier_jeton
 
-        while x < 5 and y > 0 and nombre_pion_joue < 4:
+        while x < 6 and y > 0 and nombre_pion_joue < 4:
             x += 1
             y -= 1
 
@@ -222,7 +224,7 @@ class Grille:
         x = indice_colonne_dernier_jeton
         y = dernier_jeton
 
-        while x < 5 and y < 4 and nombre_pion_joue < 4:
+        while x < 6 and y < 5 and nombre_pion_joue < 4:
             x += 1
             y += 1
 
@@ -230,11 +232,12 @@ class Grille:
                     or self.get_case(y, x).get_caractere() != caractere_dernier_jeton:
 
                 break
+
             nombre_pion_joue += 1
 
         return nombre_pion_joue, self.get_case(y, x)
 
-    def est_gagnee(self, indice_colonne_dernier_jeton: int) -> Jeton | None:
+    def est_gagnee(self, indice_colonne_dernier_jeton: int|None = None) -> Jeton | None:
         """
         Détermine si la grille est dite gagnée : quatre
         jetons d'un joueur alignés.
@@ -248,6 +251,7 @@ class Grille:
         :return: si la partie est gagnée par le pion joué
         """
 
+        #if indice_colonne_dernier_jeton is not None:
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
         caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
         caractere_dernier_jeton = caractere_dernier_jeton.get_caractere()
@@ -275,6 +279,9 @@ class Grille:
 
         if sone[0] == 4 and sone[1] is not None:
             return sone[1]
+
+        #else:
+
 
         # peut etre les boucles sont optimisables
 
@@ -313,7 +320,7 @@ class Grille:
         """
         return self.get_case(len(self.get_colonne(0)) - 1, i) is not None
 
-    def dernier_pion_colonne(self, indice_colonne: int):
+    def dernier_pion_colonne(self, indice_colonne: int) -> int | None:
         """
         retourne l'indice de la ligne du dernier pion dans la colonne
         :param indice_colonne:
