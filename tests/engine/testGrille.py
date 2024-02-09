@@ -68,14 +68,14 @@ class TestGrille(unittest.TestCase):
             grille.placer_pion(-1, rond)
 
     def test_est_gagnee_horizontal(self):
-        grille = Grille()
         rond = Rond()
-        croix = Croix()
 
-        for colonne in range(4):
-            grille.placer_pion(colonne, rond)
+        for decalage in range(4):
+            grille = Grille()
+            for colonne in range(4):
+                grille.placer_pion(colonne + decalage, rond)
 
-        self.assertEqual(rond, grille.est_gagnee(3), "Les pion ronds doivent gagner")
+            self.assertEqual(rond, grille.est_gagnee(decalage + 3), "Les pion ronds doivent gagner")
 
     def test_est_gagnee_horizontal_seconde_ligne(self):
         grille = Grille()
@@ -111,14 +111,14 @@ class TestGrille(unittest.TestCase):
         self.assertEqual(rond, grille.est_gagnee(6), "Les pion ronds doivent gagner")
 
     def test_est_gagnee_vertical(self):
-        grille = Grille()
         rond = Rond()
-        croix = Croix()
 
-        for _ in range(4):
-            grille.placer_pion(0, rond)
+        for colonne in range(7):
+            grille = Grille()
+            for _ in range(4):
+                grille.placer_pion(colonne, rond)
 
-        self.assertEqual(rond, grille.est_gagnee(0), "Les pion ronds doivent gagner")
+            self.assertEqual(rond, grille.est_gagnee(colonne), "Les pion ronds doivent gagner")
 
     def test_est_gagnee_vertical_seconde_ligne(self):
         grille = Grille()

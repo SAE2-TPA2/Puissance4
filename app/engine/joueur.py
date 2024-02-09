@@ -8,6 +8,7 @@ class Joueur:
         self.pseudo = pseudo
         self.jeton = jeton
         self.est_humain = est_humain
+        self.profondeur = 5
 
     def get_pseudo(self):
         return self.pseudo
@@ -32,7 +33,9 @@ class Joueur:
                 colonne = input(f"Joueur {self.pseudo} choisissez une colonne : ")
             colonne = int(colonne)
         else:
-            colonne = min_max(grille, 4, self.jeton, Rond() if self.jeton == Croix() else Croix(), self.jeton)[0]
+
+            colonne = min_max(grille, self.profondeur, self.jeton, Rond() if self.jeton == Croix() else Croix(),
+                              self.jeton)
         return colonne
 
     def __str__(self):
