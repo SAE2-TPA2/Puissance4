@@ -67,13 +67,11 @@ $$/        $$$$$$/  $$/ $$$$$$$/ $$$$$$$/   $$$$$$$/ $$/   $$/  $$$$$$$/  $$$$$$
         "3": ia_vs_ia,
     }
     choix = 0
-    while choix != 4:
+    while choix != "4":
         choix = affichage_menu()
-        if choix == 4:
-            break
-
-        # Récupérez la fonction dans le dictionnaire et appelez-la
-        partie = choices.get(choix)()
-        partie.boucle_jeu()
+        if choix != "4":
+            # Récupérez la fonction dans le dictionnaire et appelez-la
+            partie = choices.get(choix)()
+            partie.boucle_jeu()
 
     print("Au revoir !")
