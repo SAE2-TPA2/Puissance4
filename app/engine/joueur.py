@@ -1,13 +1,14 @@
-from app.engine.jeton import Rond, Croix
+from app.engine.jeton import Rond, Croix, Jeton
 from app.engine.grille import Grille
 from app.engine.ai.ai import min_max
 
 
 class Joueur:
-    def __init__(self, pseudo: str, jeton: Rond | Croix, est_humain: bool = True):
+    def __init__(self, pseudo: str, jeton: Jeton, est_humain: bool = True):
         self.pseudo = pseudo
         self.jeton = jeton
         self.est_humain = est_humain
+        self.profondeur = 6
 
     def get_pseudo(self):
         return self.pseudo
@@ -35,7 +36,7 @@ class Joueur:
             colonne = int(colonne)
         else:
             nouveau_jeton = Rond() if self.jeton == Croix() else Croix()
-            colonne = min_max(grille, 4, self.jeton, nouveau_jeton, self.jeton)[0]
+            colonne = min_max(grille, self.profondeur, self.jeton, nouveau_jeton, self.jeton)
 
         return colonne
 

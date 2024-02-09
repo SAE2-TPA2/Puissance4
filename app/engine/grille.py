@@ -126,6 +126,7 @@ class Grille:
         nombre_pion_joue = 1
         x = indice_colonne_dernier_jeton
 
+        # On regarde  à gauche pour une série de 4 jetons
         while x > 0 and nombre_pion_joue < 4:
             x -= 1
 
