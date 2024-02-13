@@ -4,7 +4,8 @@ from app.engine.grille import Grille
 from app.engine.jeton import Croix, Rond
 from app.engine.ai.ai import lecture_alignement,evaluation_v2,get_pion_adverse,evaluation_placement,get_score_pion
 
-class TestEvaluationV2(unittest.TesCase):
+
+class TestEvaluationV2(unittest.TestCase):
     
     def test_evaluation_v2(self):
         pass
@@ -17,11 +18,13 @@ class TestEvaluationV2(unittest.TesCase):
         rond = Rond()
         croix = Croix()
         #test Nord
-        score_attendu = 13
+        score_attendu = 51
         grille.placer_pion(4,rond)
-        grille.placer_pion(4,rond)
-        grille.placer_pion(4,rond)
-        score = lecture_alignement(grille,1,4,0,1,rond.get_caractere)
+        grille.placer_pion(4, rond)
+        grille.placer_pion(4, rond)
+        grille.placer_pion(4, croix)
+        score = lecture_alignement(grille,0,4,0,1,rond.get_caractere())
+        print(score)
         self.assertTrue(score_attendu == score,"test Nord ok")
         
         grille2 = Grille()
@@ -31,7 +34,7 @@ class TestEvaluationV2(unittest.TesCase):
         grille2.placer_pion(3,rond)
         grille2.placer_pion(5,rond)
         grille2.placer_pion(5,rond)
-        score = lecture_alignement(grille,1,4,0,1,rond.get_caractere)
+        score = lecture_alignement(grille,1,4,0,1,rond.get_caractere())
         self.assertTrue(score_attendu == score,"Test Nord ok")
         #test Nord-Est
         #test Est
