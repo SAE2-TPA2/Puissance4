@@ -297,7 +297,7 @@ class Grille:
         for i in range(len(self.grille)):
             affichage += f"  {i} "
 
-        affichage += "\n" + " ___" * (len(self.grille)) + "\n"
+        affichage += "\n" + "+---" * (len(self.grille)) + "+\n"
 
         for lig in range(len(self.get_colonne(0)) - 1, -1, -1):
             for col in range(len(self.get_grille())):
@@ -308,7 +308,7 @@ class Grille:
 
                 affichage += f"| {pion} "
 
-            affichage += "|\n" + ("|___" * len(self.grille)) + "|\n"
+            affichage += "|\n" + ("+---" * len(self.grille)) + "+\n"
 
         return affichage
 
