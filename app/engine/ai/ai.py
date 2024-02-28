@@ -1,5 +1,5 @@
 from app.engine.grille import Grille
-from app.engine.jeton import Jeton
+from app.engine.jeton import Jeton, Rond, Croix
 
 
 def min_tuple(fils: list[tuple[int, int]]) -> tuple[int, int]:
@@ -281,33 +281,21 @@ def lecture_alignement(grille: Grille, ligne: int, colonne: int, direction_h: in
     score_a_return = 0
 
     symbole_adverse = get_pion_adverse(monPion)
-
-    try:
-        if grille.get_case(ligne,colonne).get_caractere() == monPion:
-            score_a_return += 1
-    except IndexError:
-        return score_a_return
-
     fin = True
-    add_to_ligne += direction_v
-    add_to_colonne += direction_h
-
 
     while fin:
         try:
             if grille.get_case(ligne + add_to_ligne, colonne + add_to_colonne) is None:
                 score_a_return += 10
-            else:
-                score_a_return += 1
+            elif grille.get_case(ligne + add_to_ligne, colonne + add_to_colonne).get_caractere() == symbole_adverse:
+                fin = False
+            else: score_a_return += 1
+
         except IndexError:
-            score_a_return += 0
             fin = False
 
         add_to_ligne += direction_v
         add_to_colonne += direction_h
-
-        if grille.get_case(ligne + add_to_ligne, colonne + add_to_colonne) == symbole_adverse:
-            fin = False
 
     return score_a_return
 
