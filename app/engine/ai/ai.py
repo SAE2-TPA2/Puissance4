@@ -331,7 +331,7 @@ def etat_suivant(grille: Grille, pion: Jeton) -> list[Grille]:
     return resultat
 
 
-def evaluation_v3(grille: Grille, piece: Rond | Croix)->int:
+def evaluation_v3(grille: Grille, piece: Rond | Croix) -> int:
     """
     Fonction d'évaluation de la grille.
     L'évaluation est calculé indépendamment de la pièce qui vient d'être déposée.
@@ -343,12 +343,15 @@ def evaluation_v3(grille: Grille, piece: Rond | Croix)->int:
     score = 0
     # Evaluation de la colonne centrale
     colonne_central = [i for i in list(grille.grille[3][:])]
+    # On compte le nombre de Jetons qui nous appartiennent dans la colonne centrale
     score_centre = colonne_central.count(piece)
+    # Comme avoir des Jetons dans la colonne centrale nous permet beaucoup de possibilité, on donne un avantage en
+    # fonction du nombre présent
     score += score_centre * 3
 
     # Evaluation Horizontal -
     for ligne in range(6):
-        contenu_ligne = [i for i in list(grille.grille[:][ligne])]
+        contenu_ligne = [i for i in list(grille.get_ligne(ligne))]
         for colonne in range(4):
             # une portion de 4 jetons de la ligne
             segment = contenu_ligne[colonne: colonne + 4]
@@ -356,8 +359,8 @@ def evaluation_v3(grille: Grille, piece: Rond | Croix)->int:
 
     # Evaluation Vertical |
     for colonne in range(7):
-        contenu_colonne = [i for i in list(grille.grille[colonne][:])]
-        for ligne in range(3):
+        contenu_colonne = [i for i in list(grille.get_colonne(colonne))]
+        for ligne in range(4):
             segment = contenu_colonne[ligne: ligne + 4]
             score += evaluate_segment(segment, piece)
 
@@ -376,31 +379,35 @@ def evaluation_v3(grille: Grille, piece: Rond | Croix)->int:
     return score
 
 
-def evaluate_segment(segment: list[Rond | Croix | None], piece: Rond | Croix)->int:
+def evaluate_segment(segment: list[Rond | Croix | None], pion: Rond | Croix) -> int:
     """
     Évalue le score d'une partie de la grille
     :param segment: partie du plateau avec toutes les pièces qui ont été placées
-    :param piece: Rond ou Croix selon le joueur
+    :param pion: Rond ou Croix selon le joueur
     :return: le score de la partie de la grille
     """
     score = 0
-    opp_piece = Rond
-    if piece == Rond:
-        opp_piece = Croix
+    opp_pion = Rond()
 
-    if segment.count(piece) == 4:
+    if pion == Rond():
+        opp_pion = Croix()
+
+    nb_mes_pion = segment.count(pion)
+    nb_case_vide = segment.count(None)
+
+    if nb_mes_pion == 4:
         # 4 pièces alignées → victoire
         score += 100
 
-    elif segment.count(piece) == 3 and segment.count(None) == 1:
+    elif nb_mes_pion == 3 and nb_case_vide == 1:
         # 3 pièces alignées et une case vide → avantage
         score += 5
 
-    elif segment.count(piece) == 2 and segment.count(None) == 2:
+    elif nb_mes_pion == 2 and nb_case_vide == 2:
         # 2 pièces alignées et deux cases vides
         score += 2
 
-    if segment.count(opp_piece) == 3 and segment.count(None) == 1:
+    if segment.count(opp_pion) == 3 and nb_case_vide == 1:
         # 3 pièces adverses alignées et une case vide → avantage pour l'adversaire
         score -= 4
 
