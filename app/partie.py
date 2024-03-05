@@ -70,3 +70,7 @@ class Partie:
         else:
             print("Égalité, aucun joueur ne remporte la partie")
         print(self.grille)
+
+        # Affiche le temps de réflexion pour chaque joueur
+        print(f"Temps de réflexion pour {self.joueur_1.get_pseudo()} : {sum(self.joueur_1.temp_reflexion)/len(self.joueur_1.temp_reflexion)} secondes")
+        print(f"Temps de réflexion pour {self.joueur_2.get_pseudo()} : {sum(self.joueur_2.temp_reflexion)/len(self.joueur_2.temp_reflexion)} secondes")
