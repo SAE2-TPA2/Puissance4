@@ -2,6 +2,7 @@ from random import shuffle
 from app.engine.jeton import Croix, Rond
 from app.engine.joueur import Joueur
 from app.engine.grille import Grille
+import plotly.graph_objects as go
 
 
 class Partie:
@@ -74,3 +75,18 @@ class Partie:
         # Affiche le temps de réflexion pour chaque joueur
         print(f"Temps de réflexion pour {self.joueur_1.get_pseudo()} : {sum(self.joueur_1.temp_reflexion)/len(self.joueur_1.temp_reflexion)} secondes")
         print(f"Temps de réflexion pour {self.joueur_2.get_pseudo()} : {sum(self.joueur_2.temp_reflexion)/len(self.joueur_2.temp_reflexion)} secondes")
+
+        # Prepare the data
+        rounds = list(range(1, self.nb_tour + 1))
+        reflection_times_1 = self.joueur_1.temp_reflexion
+        reflection_times_2 = self.joueur_2.temp_reflexion
+
+        # Create a line chart for each player
+        line_chart_1 = go.Scatter(x=rounds, y=reflection_times_1, mode='lines', name=self.joueur_1.get_pseudo())
+        line_chart_2 = go.Scatter(x=rounds, y=reflection_times_2, mode='lines', name=self.joueur_2.get_pseudo())
+
+        # Create a figure and add the line charts to it
+        fig = go.Figure(data=[line_chart_1, line_chart_2])
+
+        # Display the figure
+        fig.show()
