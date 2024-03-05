@@ -327,6 +327,8 @@ class Grille:
         :return: indice du dernier pion dans la colonne
         """
         for i in range(5, -1, -1):
+            p = i
+            o = indice_colonne
             if self.grille[indice_colonne][i] is not None:
                 return i
 

@@ -132,26 +132,24 @@ def evaluation(grille: Grille, indice_colonne_jeton_joue: int) -> int:
 
 def evaluation_v2(grille: Grille, mon_pion: Jeton) -> int:
     """
-    Fonction d'évaluation pour la méthode min-max
-    :param pion_qui_joue: Le pion qui joue
-    :param mon_pion: Mon pion
-    :param grille: la grille du jeu
-    :return: la valeur de la grille
+    Fonction d'évaluation renvoi un int correspondant au score de la grille
+    :param mon_pion: Le pion qui joue (correspond au joueur maximisant
+    son score)
+    :param grille: la grille du jeu évalué
+    :return: la valeur correspondant au score de la grille
     """
-    # pass
-    score_initial = 50
-    caractere_increment_score = mon_pion.get_caractere()
-    caractere_decrement_score = get_pion_adverse(caractere_increment_score)
-    resultat_gagner = grille.est_gagnee()
-    if resultat_gagner is not None:
-        score_initial += evaluation_placement(grille, caractere_increment_score)
-        score_initial -= evaluation_placement(grille, caractere_decrement_score)
-        score_initial += lecture_score_alignement(grille, caractere_increment_score)
+    score_initial = 0
+    caractere_decrement_score = get_pion_adverse(mon_pion)
+    resultat_gagner = grille.est_gagnee(5)
+
+    if resultat_gagner is None: #verification que la grille est non gagnante
+        score_initial += evaluation_placement(grille, mon_pion)
+        score_initial += lecture_score_alignement(grille, mon_pion)
         score_initial -= lecture_score_alignement(grille, caractere_decrement_score)
-    elif resultat_gagner.getcaractere() == caractere_increment_score:
+    elif resultat_gagner.getcaractere() == mon_pion.get_caractere():
         score_initial = 100
     else:
-        score_initial = 0
+        score_initial = -100
     return score_initial
 
 
@@ -161,44 +159,42 @@ def evaluation_placement(grille: Grille, caractere_observe: str) -> int:
     les alignements
 
     Args :
-        caractere_observe :
+        caractere_observe : permet de connaitre le
+        caractère correspondant à la maximisation du score
         grille (Grille) : grille de jeu
-        score_montant (_str_): caractère du pion correspondant au score de 100
-
 
     Returns :
-        int : entier correspondant à un avantage si positif pour le joueur ayant le caractère montant
-        et un désavantage si le caractère est négatif cela correspond à un désanvatage
+        int : entier correspondant à un avantage si positif pour le joueur ayant le caractère
+        cherchant a maximisé son score, désavantage si le int obtenu est négatif cela correspond
+         à un désanvatage pour le joueur cherchant a minimisé son score
     """
 
     score_a_ajouter = 0
-    score_emplacement = [0, 0, 0, 2, 0, 0, 0,
-                         0, 0, 2, 3, 2, 0, 0,
-                         0, 2, 3, 4, 3, 2, 0,
-                         0, 2, 3, 4, 3, 2, 0,
-                         0, 0, 2, 3, 2, 0, 0,
-                         0, 0, 0, 2, 0, 0, 0]
-    nb_colonne = 1
-    nb_ligne = 1
+    score_emplacement = [-1, 0, 0, 1, 0, 0, -1,
+                         0, 0, 1, 2, 1, 0, 0,
+                         0, 1, 2, 3, 2, 1, 0,
+                         0, 1, 2, 3, 2, 1, 0,
+                         0, 0, 1, 2, 1, 0, 0,
+                         -1, 0, 0, 1, 0, 0, -1] # tableau modulable pour augmenter
+                                                # ou diminuer la précision de l'évaluation
+
     indice_lecture = 0
 
-    while nb_ligne != 6:
-        while nb_colonne != 7:
-            if grille.get_case(nb_ligne, nb_colonne).get_caractere() == caractere_observe:
-                score_a_ajouter += score_emplacement[indice_lecture]
-            else:
-                score_a_ajouter -= score_emplacement[indice_lecture]
-            nb_colonne += 1
-        nb_colonne = 1
-        nb_ligne += 1
+    for i in range(6): #parcour de la grille pour attribuer le score de placement
+        for j in range(7):
+            if grille.get_case(i, j) is not None:
+                if grille.get_case(i, j).get_caractere() == caractere_observe:
+                    score_a_ajouter += score_emplacement[indice_lecture]
+                else:
+                    score_a_ajouter -= score_emplacement[indice_lecture]
+            indice_lecture += 1
 
     return score_a_ajouter
-
 
 def lecture_score_alignement(grille: Grille, pionObserve: Rond | Croix) -> int:
     """
     Obeservation de chaque pion de la grille est donne un nombre
-    final positif ou négatif
+    représentant le score du pion
 
     Args:
         grille (Grille): grille du jeu à évaluer
@@ -209,32 +205,31 @@ def lecture_score_alignement(grille: Grille, pionObserve: Rond | Croix) -> int:
     """
     score_a_renvoiyer = 0
 
-    indice_lecture_colonne = 0
-    indice_lecture_ligne = 0
     symbole_observe = pionObserve.get_caractere()
-    while indice_lecture_ligne < 7:
-        while indice_lecture_colonne < 6:
-            if grille.get_case(indice_lecture_colonne, indice_lecture_ligne).get_caractere() == symbole_observe:
-                score_a_renvoiyer += get_score_pion(grille, indice_lecture_ligne, indice_lecture_colonne)
-            indice_lecture_colonne += 1
-        indice_lecture_ligne += 1
+    for i in range(6):#parcour de toute la grille
+        for j in range(7):
+            if grille.get_case(i, j) is not None:
+                if grille.get_case(i, j).get_caractere() == symbole_observe:
+                    # récupéation de la valeur du pion
+                    score_a_renvoiyer += get_score_pion(grille, i, j, symbole_observe)
+    return score_a_renvoiyer
 
-
-def get_score_pion(grille: Grille, ligne: int, colonne: int, symboleObserve: str) -> int:
+def get_score_pion(grille: Grille, ligne: int, colonne: int, symboleObserve: Jeton) -> int:
     """
-    Renvoie la valeur des alignement du pion
+    Renvoie la valeur des alignements du pion %10 correspond au nombre de pion aligné
+    /10 correspond au emplacement libre dans l'alignement du joueur
 
     Args:
         grille (Grille): grille du jeu evaluer
         ligne (int): ligne du pion observé
         colonne (int): colonne du pion observé
-        symboleObserve (str): symbole observé
+        symboleObserve (Jeton): symbole observé
 
     Returns:
-        int: entier modifiant le score
+        int: entier corrspondant au score du pion 
     """
     score_to_add = 0
-    direction_verifie = 0
+
     score_horizontal = 0
     score_vertical = 0
     score_diagonale_nose = 0
@@ -242,8 +237,8 @@ def get_score_pion(grille: Grille, ligne: int, colonne: int, symboleObserve: str
 
     symboleAdverse = get_pion_adverse(symboleObserve)
 
-    while direction_verifie < 8:
-        match direction_verifie:
+    for i in range(8):# lecture de l'ensemble des 8 directions du pion
+        match i:
             case 0:  # EST
                 score_horizontal += lecture_alignement(grille, ligne, colonne, 1, 0, symboleObserve)
             case 1:  # SUD-EST
@@ -253,41 +248,62 @@ def get_score_pion(grille: Grille, ligne: int, colonne: int, symboleObserve: str
             case 3:  # SUD-OUEST
                 score_diagonale_sone += lecture_alignement(grille, ligne, colonne, -1, -1, symboleObserve)
             case 4:  # OUEST
+                if score_horizontal != 0:
+                    score_horizontal += -1
                 score_horizontal += lecture_alignement(grille, ligne, colonne, -1, 0, symboleObserve)
             case 5:  # NORD-OUEST
+                if score_diagonale_nose != 0:
+                    score_diagonale_nose += -1
                 score_diagonale_nose += lecture_alignement(grille, ligne, colonne, -1, 1, symboleObserve)
             case 6:  # NORD
+                if score_vertical != 0:
+                    score_vertical += -1
                 score_vertical += lecture_alignement(grille, ligne, colonne, 0, 1, symboleObserve)
             case 7:  # NORD-EST
+                if score_diagonale_sone != 0:
+                    score_diagonale_sone += -1
                 score_diagonale_sone += lecture_alignement(grille, ligne, colonne, 1, 1, symboleObserve)
-        direction_verifie += 1
 
     scores = [score_horizontal, score_vertical, score_diagonale_nose, score_diagonale_sone]
     for score in scores:
-        if score % 10 == 2 and score / 10 >= 2:
+        if score % 10 == 1 and score / 10 >= 3:
             score_to_add += 1
-        elif score % 10 == 3 and score / 10 == 1:
+        elif score % 10 == 2 and score / 10 >= 2:
             score_to_add += 2
-        elif score_to_add == 3 and score / 10 >= 2:
-            score_to_add == 3 # Ce n'est pas += plutôt ?
+        elif score % 10 == 3 and score / 10 == 1:
+            score_to_add += 3
+        elif score % 10 == 3 and score / 10 >= 2:
+            score_to_add += 5
 
     return score_to_add
 
 
 def lecture_alignement(grille: Grille, ligne: int, colonne: int, direction_h: int, direction_v: int,
-                       monPion: str) -> int:
+                       mon_pion: Jeton) -> int:
+    """
+    Renvoie la valeur d'un alignement précis sur un pion donné
+
+    Args:
+        grille (Grille): grille du jeu evaluer
+        ligne (int): ligne du pion observé
+        colonne (int): colonne du pion observé
+        mon_pion (Jeton): symbole observé
+
+    Returns:
+        int: entier modifiant le score
+    """
     add_to_ligne = 0
     add_to_colonne = 0
     score_a_return = 0
 
-    symbole_adverse = get_pion_adverse(monPion)
+    symbole_adverse = get_pion_adverse(mon_pion)
     fin = True
 
     while fin:
         try:
             if grille.get_case(ligne + add_to_ligne, colonne + add_to_colonne) is None:
                 score_a_return += 10
-            elif grille.get_case(ligne + add_to_ligne, colonne + add_to_colonne).get_caractere() == symbole_adverse:
+            elif grille.get_case(ligne + add_to_ligne, colonne + add_to_colonne).get_caractere() == symbole_adverse.get_caractere():
                 fin = False
             else: score_a_return += 1
 
@@ -300,7 +316,7 @@ def lecture_alignement(grille: Grille, ligne: int, colonne: int, direction_h: in
     return score_a_return
 
 
-def get_pion_adverse(mon_pion: str) -> str:
+def get_pion_adverse(mon_pion: Jeton) -> str:
     """
         renvoi le caractère du pion adverse
 
@@ -310,11 +326,10 @@ def get_pion_adverse(mon_pion: str) -> str:
     Returns:
         str: caractère du pion adverse
     """
-    symbole_adverse = "X"
+    symbole_adverse = Croix()
     if mon_pion == "X":
-        symbole_adverse = "O"
+        symbole_adverse = Rond()
     return symbole_adverse
-
 
 def etat_suivant(grille: Grille, pion: Jeton) -> list[Grille]:
     """
