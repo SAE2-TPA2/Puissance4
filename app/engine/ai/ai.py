@@ -130,7 +130,7 @@ def evaluation(grille: Grille, indice_colonne_jeton_joue: int) -> int:
     return score_jeton
 
 
-def evaluation_v2(grille: Grille, mon_pion: Jeton) -> int:
+def evaluation_v2(grille: Grille) -> int:
     """
     Fonction d'évaluation renvoi un int correspondant au score de la grille
     :param mon_pion: Le pion qui joue (correspond au joueur maximisant
@@ -139,11 +139,11 @@ def evaluation_v2(grille: Grille, mon_pion: Jeton) -> int:
     :return: la valeur correspondant au score de la grille
     """
     score_initial = 0
-    caractere_decrement_score = get_pion_adverse(mon_pion)
     resultat_gagner = grille.est_gagnee(5)
-
+    mon_pion = Croix()
+    caractere_decrement_score = Rond()
     if resultat_gagner is None: #verification que la grille est non gagnante
-        score_initial += evaluation_placement(grille, mon_pion)
+        #score_initial += evaluation_placement(grille, mon_pion)
         score_initial += lecture_score_alignement(grille, mon_pion)
         score_initial -= lecture_score_alignement(grille, caractere_decrement_score)
     elif resultat_gagner.getcaractere() == mon_pion.get_caractere():
@@ -151,45 +151,6 @@ def evaluation_v2(grille: Grille, mon_pion: Jeton) -> int:
     else:
         score_initial = -100
     return score_initial
-
-
-def evaluation_placement(grille: Grille, caractere_observe: str) -> int:
-    """
-    Donne le score initial avec l'emplacement des pions sans prendre en compte
-    les alignements
-
-    Args :
-        caractere_observe : permet de connaitre le
-        caractère correspondant à la maximisation du score
-        grille (Grille) : grille de jeu
-
-    Returns :
-        int : entier correspondant à un avantage si positif pour le joueur ayant le caractère
-        cherchant a maximisé son score, désavantage si le int obtenu est négatif cela correspond
-         à un désanvatage pour le joueur cherchant a minimisé son score
-    """
-
-    score_a_ajouter = 0
-    score_emplacement = [-1, 0, 0, 1, 0, 0, -1,
-                         0, 0, 1, 2, 1, 0, 0,
-                         0, 1, 2, 3, 2, 1, 0,
-                         0, 1, 2, 3, 2, 1, 0,
-                         0, 0, 1, 2, 1, 0, 0,
-                         -1, 0, 0, 1, 0, 0, -1] # tableau modulable pour augmenter
-                                                # ou diminuer la précision de l'évaluation
-
-    indice_lecture = 0
-
-    for i in range(6): #parcour de la grille pour attribuer le score de placement
-        for j in range(7):
-            if grille.get_case(i, j) is not None:
-                if grille.get_case(i, j).get_caractere() == caractere_observe:
-                    score_a_ajouter += score_emplacement[indice_lecture]
-                else:
-                    score_a_ajouter -= score_emplacement[indice_lecture]
-            indice_lecture += 1
-
-    return score_a_ajouter
 
 def lecture_score_alignement(grille: Grille, pionObserve: Rond | Croix) -> int:
     """
@@ -226,7 +187,7 @@ def get_score_pion(grille: Grille, ligne: int, colonne: int, symboleObserve: Jet
         symboleObserve (Jeton): symbole observé
 
     Returns:
-        int: entier corrspondant au score du pion 
+        int: entier corrspondant au score du pion
     """
     score_to_add = 0
 
@@ -247,22 +208,7 @@ def get_score_pion(grille: Grille, ligne: int, colonne: int, symboleObserve: Jet
                 score_vertical += lecture_alignement(grille, ligne, colonne, 0, -1, symboleObserve)
             case 3:  # SUD-OUEST
                 score_diagonale_sone += lecture_alignement(grille, ligne, colonne, -1, -1, symboleObserve)
-            case 4:  # OUEST
-                if score_horizontal != 0:
-                    score_horizontal += -1
-                score_horizontal += lecture_alignement(grille, ligne, colonne, -1, 0, symboleObserve)
-            case 5:  # NORD-OUEST
-                if score_diagonale_nose != 0:
-                    score_diagonale_nose += -1
-                score_diagonale_nose += lecture_alignement(grille, ligne, colonne, -1, 1, symboleObserve)
-            case 6:  # NORD
-                if score_vertical != 0:
-                    score_vertical += -1
-                score_vertical += lecture_alignement(grille, ligne, colonne, 0, 1, symboleObserve)
-            case 7:  # NORD-EST
-                if score_diagonale_sone != 0:
-                    score_diagonale_sone += -1
-                score_diagonale_sone += lecture_alignement(grille, ligne, colonne, 1, 1, symboleObserve)
+
 
     scores = [score_horizontal, score_vertical, score_diagonale_nose, score_diagonale_sone]
     for score in scores:
@@ -271,9 +217,9 @@ def get_score_pion(grille: Grille, ligne: int, colonne: int, symboleObserve: Jet
         elif score % 10 == 2 and score / 10 >= 2:
             score_to_add += 2
         elif score % 10 == 3 and score / 10 == 1:
-            score_to_add += 3
+            score_to_add += 4
         elif score % 10 == 3 and score / 10 >= 2:
-            score_to_add += 5
+            score_to_add += 7
 
     return score_to_add
 
@@ -298,7 +244,6 @@ def lecture_alignement(grille: Grille, ligne: int, colonne: int, direction_h: in
 
     symbole_adverse = get_pion_adverse(mon_pion)
     fin = True
-
     while fin:
         try:
             if grille.get_case(ligne + add_to_ligne, colonne + add_to_colonne) is None:
@@ -312,6 +257,25 @@ def lecture_alignement(grille: Grille, ligne: int, colonne: int, direction_h: in
 
         add_to_ligne += direction_v
         add_to_colonne += direction_h
+
+    fin = True
+    add_to_ligne = 0
+    add_to_colonne = 0
+
+    while fin:
+        try:
+            if grille.get_case(ligne + add_to_ligne, colonne + add_to_colonne) is None:
+                score_a_return += 10
+            elif grille.get_case(ligne + add_to_ligne, colonne + add_to_colonne).get_caractere() == symbole_adverse.get_caractere():
+                fin = False
+            else: score_a_return += 1
+
+        except IndexError:
+            fin = False
+
+        add_to_ligne -= direction_v
+        add_to_colonne -= direction_h
+
 
     return score_a_return
 
