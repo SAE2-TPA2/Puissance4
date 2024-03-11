@@ -69,7 +69,7 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Rond | Croix, pion_advers
 
 
     coups_possible = grille.coups_possible()
-
+    
     if qui_joue == mon_pion:
         valeur_max: tuple[int, int] = (3, -1000)
         for coup in coups_possible:
@@ -116,7 +116,6 @@ def evaluation_v2(grille: Grille, mon_pion: Jeton) -> int:
     mon_pion = Croix()
     caractere_decrement_score = Rond()
     if resultat_gagner is None: #verification que la grille est non gagnante
-        #score_initial += evaluation_placement(grille, mon_pion)
         score_initial += lecture_score_alignement(grille, mon_pion)
         score_initial -= lecture_score_alignement(grille, caractere_decrement_score)
     elif resultat_gagner.getcaractere() == mon_pion.get_caractere():
@@ -171,28 +170,32 @@ def get_score_pion(grille: Grille, ligne: int, colonne: int, symboleObserve: Jet
 
     symboleAdverse = get_pion_adverse(symboleObserve)
 
-    for i in range(8):# lecture de l'ensemble des 8 directions du pion
+    for i in range(4):# lecture de l'ensemble des 4 directions du pion
         match i:
-            case 0:  # EST
+            case 0:  # DIRECTION EST
                 score_horizontal += lecture_alignement(grille, ligne, colonne, 1, 0, symboleObserve)
-            case 1:  # SUD-EST
+            case 1:  # DIRECTION SUD-EST
                 score_diagonale_nose += lecture_alignement(grille, ligne, colonne, 1, -1, symboleObserve)
-            case 2:  # SUD
+            case 2:  # DIRECTION SUD
                 score_vertical += lecture_alignement(grille, ligne, colonne, 0, -1, symboleObserve)
-            case 3:  # SUD-OUEST
+            case 3:  # DIRECTION SUD-OUEST
                 score_diagonale_sone += lecture_alignement(grille, ligne, colonne, -1, -1, symboleObserve)
 
-
     scores = [score_horizontal, score_vertical, score_diagonale_nose, score_diagonale_sone]
+
     for score in scores:
+        # 1 seul pion détecté dans l'alignement avec possibilité de placer 3 autres
         if score % 10 == 1 and score / 10 >= 3:
-            score_to_add += 1
+            score_to_add += 1 # score attribué 1 car peu avantageux
+        # 2 pions détectés dans l'alignement avec possibilité de placer au moins 2 autres
         elif score % 10 == 2 and score / 10 >= 2:
-            score_to_add += 2
+            score_to_add += 2  # score attribué 2 car peu avantageux mais interéssant
+        # 3 pions détectés dans l'alignement avec possibilité de placer 1 autre
         elif score % 10 == 3 and score / 10 == 1:
-            score_to_add += 4
+            score_to_add += 3 # score attribué 3 avantageux mais reste limité
+        # 3 pions détectés dans l'alignement avec possibilité de placer au moins 2 autres
         elif score % 10 == 3 and score / 10 >= 2:
-            score_to_add += 7
+            score_to_add += 5 # score attribué 5 avantageux et non blocable au prochain tour
 
     return score_to_add
 
