@@ -90,46 +90,6 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Jeton, pion_adverse: Jeto
     return valeur_min[1]
 
 
-def evaluation(grille: Grille, indice_colonne_jeton_joue: int) -> int:
-    """
-    Fonction d'évaluation pour la méthode min-max
-    :param indice_colonne_jeton_joue: l'indice de la colonne où le jeton a été joué
-    :param grille: la grille du jeu à évaluer
-    :return: la valeur de la grille
-    """
-    POINTS_JETON_DANS_SERIE = 5
-    POINTS_PARTIE_GAGNABLE = 100
-
-    score_jeton = 0
-
-    analyse_verticale = grille.verification_verticale(indice_colonne_jeton_joue)
-    analyse_horizontale = grille.verification_horizontale(indice_colonne_jeton_joue)
-    analyse_nose = grille.verification_diagonale_no_se(indice_colonne_jeton_joue)
-    analyse_sone = grille.verification_diagonale_so_ne(indice_colonne_jeton_joue)
-
-    if analyse_verticale[0] < 4:
-        score_jeton += analyse_verticale[0] * POINTS_JETON_DANS_SERIE
-    else:
-        score_jeton += POINTS_PARTIE_GAGNABLE
-
-    if analyse_horizontale[0] < 4:
-        score_jeton += analyse_horizontale[0] * POINTS_JETON_DANS_SERIE
-    else:
-        score_jeton += POINTS_PARTIE_GAGNABLE
-
-    if analyse_nose[0] < 4:
-        score_jeton += analyse_nose[0] * POINTS_JETON_DANS_SERIE
-    else:
-        score_jeton += POINTS_PARTIE_GAGNABLE
-
-    if analyse_sone[0] < 4:
-        score_jeton += analyse_sone[0] * POINTS_JETON_DANS_SERIE
-    else:
-        score_jeton += POINTS_PARTIE_GAGNABLE
-
-    return score_jeton
-
-
 def evaluation_v2(grille: Grille, mon_pion: Jeton) -> int:
     """
     Fonction d'évaluation renvoi un int correspondant au score de la grille
