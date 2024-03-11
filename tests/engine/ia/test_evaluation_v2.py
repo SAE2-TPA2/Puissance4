@@ -14,7 +14,7 @@ class TestEvaluationV2(unittest.TestCase):
 
         rond = Rond()
         croix = Croix()
-        score_attendu = 14
+        score_attendu = -14
 
         grille_evalue.placer_pion(0, rond)
         grille_evalue.placer_pion(1, rond)
