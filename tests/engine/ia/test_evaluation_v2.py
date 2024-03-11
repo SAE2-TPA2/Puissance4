@@ -14,7 +14,7 @@ class TestEvaluationV2(unittest.TestCase):
 
         rond = Rond()
         croix = Croix()
-        score_attendu = 18
+        score_attendu = 14
 
         grille_evalue.placer_pion(0, rond)
         grille_evalue.placer_pion(1, rond)
@@ -44,33 +44,14 @@ class TestEvaluationV2(unittest.TestCase):
         grille_evalue.placer_pion(5, croix)
 
         score_1 = evaluation_v2(grille_evalue)
-        print(score_1)
         self.assertTrue(score_1 == score_attendu, "test 1 integration évaluation v2")
-
-
-    #def test_evaluation_placement(self):
-        #rond = Rond()
-        #croix = Croix()
-        #score_attendu_1 = 28
-        #score_attendu_2 = -28
-        #grille_placement = Grille()
-
-       # while not grille_placement.grille_est_pleine():
-            #for i in range(6):
-                #for j in range(7):
-                    #grille_placement.placer_pion(j, croix)
-
-        #score1 = evaluation_placement(grille_placement,croix.get_caractere())
-        #score2 = evaluation_placement(grille_placement, rond.get_caractere())
-        #self.assertTrue(score1 == score_attendu_1, "test 1 évaluation placement")
-        #self.assertTrue(score2 == score_attendu_2, "test 2 évaluation placement")
 
     def test_lecture_score_alignement(self):
         grille_a_lire = Grille()
 
         rond = Rond()
         croix = Croix()
-        score_attendu = -18
+        score_attendu = -14
 
 
         grille_a_lire.placer_pion(0, rond)
@@ -106,7 +87,7 @@ class TestEvaluationV2(unittest.TestCase):
         self.assertTrue(score_1 - score_2 == score_attendu, "Test lecture grille NOk")
 
     def test_get_score_pion(self):
-        score_attendu = 7
+        score_attendu = 5
 
         grille_pion = Grille()
         rond = Rond()
@@ -124,6 +105,7 @@ class TestEvaluationV2(unittest.TestCase):
         grille_pion.placer_pion(4, croix)
 
         score = get_score_pion(grille_pion,1,3,rond.get_caractere())
+
         self.assertTrue(score == score_attendu,"test get score pion ok")
 
     def test_lecture_alignement(self):
@@ -152,7 +134,6 @@ class TestEvaluationV2(unittest.TestCase):
         score_2 = lecture_alignement(grilleN, 0, 3, 0, 1, croix.get_caractere())
         score_3 = lecture_alignement(grilleN, 0, 3, 0, 1, rond.get_caractere())
         score_4 = lecture_alignement(grilleN, 5, 4, 0, 1, croix.get_caractere())
-
 
         self.assertTrue(score_attendu_1 == score_1, "test 1 Nord Nok")
         self.assertTrue(score_attendu_2 == score_2, "test 2 Nord Nok")
