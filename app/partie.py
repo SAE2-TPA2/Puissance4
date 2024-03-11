@@ -53,7 +53,7 @@ class Partie:
             if joueur_du_tour.get_est_humain():
                 print(self.grille)
             else:
-                print(f"L'IA {joueur_du_tour.get_pseudo()} réfléchit...")
+                print(f"L'IA {joueur_du_tour.get_pseudo()}({joueur_du_tour.get_jeton()}) réfléchit...")
 
             # Demande au joueur de choisir une colonne
             numero_colonne_joue = joueur_du_tour.choisir_colonne(self.grille)

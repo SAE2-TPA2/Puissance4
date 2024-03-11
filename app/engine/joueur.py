@@ -13,6 +13,13 @@ class Joueur:
         self.profondeur = 6
         self.method_evaluation = methode_evaluation
 
+        while self.pseudo == "":
+            if est_humain:
+                self.pseudo = input("Entrez le pseudo du joueur : ")
+            else:
+                self.pseudo = input("Entrez le nom de l'IA : ")
+
+
         self.temp_reflexion = []
 
     def get_pseudo(self):
@@ -33,11 +40,11 @@ class Joueur:
         """
         if self.est_humain:
             t0 = time.time()
-            colonne = input(f"Joueur {self.pseudo} choisissez une colonne : ")
+            colonne = input(f"Joueur {self.pseudo}({self.jeton}) choisissez une colonne : ")
 
             while not colonne.isdigit():
                 print("Erreur : Veillez saisir un entier")
-                colonne = input(f"Joueur {self.pseudo} choisissez une colonne : ")
+                colonne = input(f"Joueur {self.pseudo}({self.jeton}) choisissez une colonne : ")
             t1 = time.time()
             colonne = int(colonne)
             self.temp_reflexion.append(t1 - t0)
