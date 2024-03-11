@@ -103,7 +103,7 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Rond | Croix, pion_advers
     return valeur_min[1]
 
 
-def evaluation_v2(grille: Grille, mon_pion: Jeton) -> int:
+def evaluation_v2(grille: Grille) -> int:
     """
     Fonction d'évaluation renvoi un int correspondant au score de la grille
     :param mon_pion: Le pion qui joue (correspond au joueur maximisant
@@ -112,16 +112,8 @@ def evaluation_v2(grille: Grille, mon_pion: Jeton) -> int:
     :return: la valeur correspondant au score de la grille
     """
     score_initial = 0
-    resultat_gagner = grille.est_gagnee(5)
-    mon_pion = Croix()
-    caractere_decrement_score = Rond()
-    if resultat_gagner is None: #verification que la grille est non gagnante
-        score_initial += lecture_score_alignement(grille, mon_pion)
-        score_initial -= lecture_score_alignement(grille, caractere_decrement_score)
-    elif resultat_gagner.getcaractere() == mon_pion.get_caractere():
-        score_initial = 100
-    else:
-        score_initial = -100
+    score_initial -= lecture_score_alignement(grille, Croix())
+    score_initial += lecture_score_alignement(grille, Rond())
     return score_initial
 
 def lecture_score_alignement(grille: Grille, pionObserve: Rond | Croix) -> int:
@@ -139,7 +131,7 @@ def lecture_score_alignement(grille: Grille, pionObserve: Rond | Croix) -> int:
     score_a_renvoiyer = 0
 
     symbole_observe = pionObserve.get_caractere()
-    for i in range(6):#parcour de toute la grille
+    for i in range(6):#parcours de toute la grille
         for j in range(7):
             if grille.get_case(i, j) is not None:
                 if grille.get_case(i, j).get_caractere() == symbole_observe:
@@ -251,7 +243,6 @@ def lecture_alignement(grille: Grille, ligne: int, colonne: int, direction_h: in
 
         add_to_ligne -= direction_v
         add_to_colonne -= direction_h
-
 
     return score_a_return
 
