@@ -1,16 +1,17 @@
 import time
 
-from app.engine.jeton import Rond, Croix, Jeton
+from app.engine.jeton import Rond, Croix
 from app.engine.grille import Grille
 from app.engine.ai.ai import min_max
 
 
 class Joueur:
-    def __init__(self, pseudo: str, jeton: Jeton, est_humain: bool = True):
+    def __init__(self, pseudo: str, jeton: Rond | Croix, est_humain: bool = True, methode_evaluation: str = None):
         self.pseudo = pseudo
         self.jeton = jeton
         self.est_humain = est_humain
         self.profondeur = 6
+        self.method_evaluation = methode_evaluation
 
         self.temp_reflexion = []
 
@@ -47,7 +48,7 @@ class Joueur:
                 self.profondeur += 1
 
             t0 = time.time()
-            colonne = min_max(grille, self.profondeur, self.jeton, nouveau_jeton, self.jeton)
+            colonne = min_max(grille, self.profondeur, self.jeton, nouveau_jeton, self.jeton, methode_evaluation=self.method_evaluation)
             t1 = time.time()
 
             if t1 - t0 < 4:

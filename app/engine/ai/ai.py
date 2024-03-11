@@ -40,7 +40,7 @@ def max_tuple(fils: list[tuple[int, int]]) -> tuple[int, int]:
 
 
 def min_max(grille: Grille, profondeur: int, mon_pion: Rond | Croix, pion_adverse: Rond | Croix, qui_joue: Rond | Croix,
-            coup_joue: int | None = None)->int:
+            coup_joue: int | None = None, methode_evaluation: str = "v2")->int:
     """
     Méthode min-max pour choisir la colonne à jouer
     :param grille: La grille du jeu
@@ -49,6 +49,7 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Rond | Croix, pion_advers
     :param pion_adverse: Le pion de l'adversaire
     :param qui_joue: Le pion qui joue
     :param coup_joue: Le coup joué qui a mené à cette grille
+    :param methode_evaluation: La méthode d'évaluation à utiliser v2 ou v3
     :return: Si coup_joue est None, on retourne le coup à jouer, sinon on retourne l'évaluation de la grille
     """
     if coup_joue is not None:  # Au premier appel coup_joue est None.
@@ -62,7 +63,10 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Rond | Croix, pion_advers
             return 0
 
         if profondeur == 0:
-            return evaluation_v3(grille)
+            if methode_evaluation == "v3":
+                return evaluation_v3(grille)
+            return evaluation_v2(grille, mon_pion)
+
 
     coups_possible = grille.coups_possible()
 
@@ -71,7 +75,10 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Rond | Croix, pion_advers
         for coup in coups_possible:
             grille_temp = grille.__deepcopy__()
             grille_temp.placer_pion(coup, qui_joue)
-            valeur = min_max(grille_temp, profondeur - 1, mon_pion, pion_adverse, pion_adverse, coup)
+
+            valeur = min_max(grille_temp, profondeur - 1, mon_pion, pion_adverse,
+                             pion_adverse, coup, methode_evaluation=methode_evaluation)
+
             valeur_max = max_tuple([(coup, valeur), valeur_max])
 
         if coup_joue is None:  # Si on est à la racine, on retourne le coup à jouer
@@ -84,7 +91,10 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Rond | Croix, pion_advers
     for coup in coups_possible:
         grille_temp = grille.__deepcopy__()
         grille_temp.placer_pion(coup, qui_joue)
-        valeur = min_max(grille_temp, profondeur - 1, mon_pion, pion_adverse, mon_pion, coup)
+
+        valeur = min_max(grille_temp, profondeur - 1, mon_pion, pion_adverse,
+                         mon_pion, coup, methode_evaluation=methode_evaluation)
+
         valeur_min = min_tuple([(coup, valeur), valeur_min])
 
     if coup_joue is None:  # Si on est à la racine, on retourne le coup à jouer

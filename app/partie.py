@@ -8,8 +8,19 @@ import plotly.graph_objects as go
 class Partie:
     def __init__(self, joueur_1_est_ia: bool = False, joueur_2_est_ia: bool = False):
         self.nb_tour: int = 0
-        self.joueur_1: Joueur = Joueur("Alice", Croix(), est_humain=not joueur_1_est_ia)
-        self.joueur_2: Joueur = Joueur("Bob", Rond(), est_humain=not joueur_2_est_ia)
+
+        methode_evaluation_ia1 = ""
+        methode_evaluation_ia2 = ""
+        # Si les joueurs sont des IA, demande à l'utilisateur de saisir la méthode d'évaluation
+        if joueur_1_est_ia:
+            methode_evaluation_ia1 = input("Nom méthode d'évaluation (v2 ou v3) du joueur IA 1 : ")
+        if joueur_2_est_ia:
+            methode_evaluation_ia2 = input("Nom méthode d'évaluation (v2 ou v3) du joueur IA 2 : ")
+
+        self.joueur_1: Joueur = Joueur("", Croix(), est_humain=not joueur_1_est_ia,
+                                       methode_evaluation=methode_evaluation_ia1)
+        self.joueur_2: Joueur = Joueur("", Rond(), est_humain=not joueur_2_est_ia,
+                                       methode_evaluation=methode_evaluation_ia2)
         self.grille: Grille = Grille()
 
     def get_nb_tour(self):
