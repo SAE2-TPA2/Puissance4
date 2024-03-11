@@ -1,6 +1,9 @@
 from app.engine.grille import Grille
 from app.engine.jeton import Jeton, Rond, Croix
 
+VALEUR_X = -5
+VALEUR_O = 5
+
 
 def min_tuple(fils: list[tuple[int, int]]) -> tuple[int, int]:
     """
@@ -36,7 +39,7 @@ def max_tuple(fils: list[tuple[int, int]]) -> tuple[int, int]:
     return max_coup, max_valeur
 
 
-def min_max(grille: Grille, profondeur: int, mon_pion: Jeton, pion_adverse: Jeton, qui_joue: Rond | Croix,
+def min_max(grille: Grille, profondeur: int, mon_pion: Rond | Croix, pion_adverse: Rond | Croix, qui_joue: Rond | Croix,
             coup_joue: int | None = None)->int:
     """
     Méthode min-max pour choisir la colonne à jouer
@@ -59,7 +62,7 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Jeton, pion_adverse: Jeto
             return 0
 
         if profondeur == 0:
-            return evaluation_v2(grille)
+            return evaluation_v3(grille)
 
     coups_possible = grille.coups_possible()
     
@@ -90,47 +93,7 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Jeton, pion_adverse: Jeto
     return valeur_min[1]
 
 
-def evaluation(grille: Grille, indice_colonne_jeton_joue: int) -> int:
-    """
-    Fonction d'évaluation pour la méthode min-max
-    :param indice_colonne_jeton_joue: l'indice de la colonne où le jeton a été joué
-    :param grille: la grille du jeu à évaluer
-    :return: la valeur de la grille
-    """
-    POINTS_JETON_DANS_SERIE = 5
-    POINTS_PARTIE_GAGNABLE = 100
-
-    score_jeton = 0
-
-    analyse_verticale = grille.verification_verticale(indice_colonne_jeton_joue)
-    analyse_horizontale = grille.verification_horizontale(indice_colonne_jeton_joue)
-    analyse_nose = grille.verification_diagonale_no_se(indice_colonne_jeton_joue)
-    analyse_sone = grille.verification_diagonale_so_ne(indice_colonne_jeton_joue)
-
-    if analyse_verticale[0] < 4:
-        score_jeton += analyse_verticale[0] * POINTS_JETON_DANS_SERIE
-    else:
-        score_jeton += POINTS_PARTIE_GAGNABLE
-
-    if analyse_horizontale[0] < 4:
-        score_jeton += analyse_horizontale[0] * POINTS_JETON_DANS_SERIE
-    else:
-        score_jeton += POINTS_PARTIE_GAGNABLE
-
-    if analyse_nose[0] < 4:
-        score_jeton += analyse_nose[0] * POINTS_JETON_DANS_SERIE
-    else:
-        score_jeton += POINTS_PARTIE_GAGNABLE
-
-    if analyse_sone[0] < 4:
-        score_jeton += analyse_sone[0] * POINTS_JETON_DANS_SERIE
-    else:
-        score_jeton += POINTS_PARTIE_GAGNABLE
-
-    return score_jeton
-
-
-def evaluation_v2(grille: Grille) -> int:
+def evaluation_v2(grille: Grille, mon_pion: Jeton) -> int:
     """
     Fonction d'évaluation renvoi un int correspondant au score de la grille
     :param mon_pion: Le pion qui joue (correspond au joueur maximisant
@@ -313,7 +276,7 @@ def etat_suivant(grille: Grille, pion: Jeton) -> list[Grille]:
     return resultat
 
 
-def evaluation_v3(grille: Grille, piece: Rond | Croix) -> int:
+def evaluation_v3(grille: Grille) -> int:
     """
     Fonction d'évaluation de la grille.
     L'évaluation est calculé indépendamment de la pièce qui vient d'être déposée.
@@ -325,11 +288,6 @@ def evaluation_v3(grille: Grille, piece: Rond | Croix) -> int:
     score = 0
     # Evaluation de la colonne centrale
     colonne_central = [i for i in list(grille.grille[3][:])]
-    # On compte le nombre de Jetons qui nous appartiennent dans la colonne centrale
-    score_centre = colonne_central.count(piece)
-    # Comme avoir des Jetons dans la colonne centrale nous permet beaucoup de possibilité, on donne un avantage en
-    # fonction du nombre présent
-    score += score_centre * 3
 
     # Evaluation Horizontal -
     for ligne in range(6):
@@ -337,60 +295,63 @@ def evaluation_v3(grille: Grille, piece: Rond | Croix) -> int:
         for colonne in range(4):
             # une portion de 4 jetons de la ligne
             segment = contenu_ligne[colonne: colonne + 4]
-            score += evaluate_segment(segment, piece)
+            score += evaluate_segment(segment)
 
     # Evaluation Vertical |
     for colonne in range(7):
         contenu_colonne = [i for i in list(grille.get_colonne(colonne))]
         for ligne in range(4):
             segment = contenu_colonne[ligne: ligne + 4]
-            score += evaluate_segment(segment, piece)
+            score += evaluate_segment(segment)
 
     # Evaluation Diagonale NO-SE /
     for ligne in range(3):
         for colonne in range(4):
             segment = [grille.grille[colonne + i][ligne + i] for i in range(4)]
-            score += evaluate_segment(segment, piece)
+            score += evaluate_segment(segment)
 
     # Evaluation Diagonale NE-SO \
     for ligne in range(3):
         for colonne in range(4):
             segment = [grille.grille[colonne + i][ligne + 3 - i] for i in range(4)]
-            score += evaluate_segment(segment, piece)
+            score += evaluate_segment(segment)
 
     return score
 
 
-def evaluate_segment(segment: list[Rond | Croix | None], pion: Rond | Croix) -> int:
+def evaluate_segment(segment: list[Rond | Croix | None]) -> int:
     """
     Évalue le score d'une partie de la grille
     :param segment: partie du plateau avec toutes les pièces qui ont été placées
     :param pion: Rond ou Croix selon le joueur
     :return: le score de la partie de la grille
     """
+    global VALEUR_X, VALEUR_O
     score = 0
-    opp_pion = Rond()
 
-    if pion == Rond():
-        opp_pion = Croix()
+    nb_rond = segment.count(Rond())
+    nb_croix = segment.count(Croix())
+    nb_case_vide = 4 - (nb_rond + nb_croix)
 
-    nb_mes_pion = segment.count(pion)
-    nb_case_vide = segment.count(None)
-
-    if nb_mes_pion == 4:
+    if nb_rond == 4:
         # 4 pièces alignées → victoire
-        score += 100
+        score += 20 * VALEUR_O
 
-    elif nb_mes_pion == 3 and nb_case_vide == 1:
+    elif nb_rond == 3 and nb_case_vide == 1:
         # 3 pièces alignées et une case vide → avantage
-        score += 5
+        score += 3 * VALEUR_O
 
-    elif nb_mes_pion == 2 and nb_case_vide == 2:
+    elif nb_rond == 2 and nb_case_vide == 2:
         # 2 pièces alignées et deux cases vides
-        score += 2
+        score += VALEUR_O
 
-    if segment.count(opp_pion) == 3 and nb_case_vide == 1:
-        # 3 pièces adverses alignées et une case vide → avantage pour l'adversaire
-        score -= 4
+    if nb_croix == 4:
+        score += 20 * VALEUR_X
+
+    elif nb_croix == 3 and nb_case_vide == 1:
+        score += 3 * VALEUR_X
+
+    elif nb_croix == 2 and nb_case_vide == 2:
+        score += VALEUR_X
 
     return score
