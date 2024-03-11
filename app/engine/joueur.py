@@ -42,9 +42,17 @@ class Joueur:
             self.temp_reflexion.append(t1 - t0)
         else:
             nouveau_jeton = Rond() if self.jeton == Croix() else Croix()
+
+            if len(grille.coups_possible()) < 4:
+                self.profondeur += 1
+
             t0 = time.time()
             colonne = min_max(grille, self.profondeur, self.jeton, nouveau_jeton, self.jeton)
             t1 = time.time()
+
+            if t1 - t0 < 4:
+                self.profondeur += 1
+                print("////Profondeur augmentée à ", self.profondeur, "////")
 
             print("Temps de calcul : ", t1 - t0, " secondes")
             self.temp_reflexion.append(t1 - t0)
