@@ -39,7 +39,7 @@ def max_tuple(fils: list[tuple[int, int]]) -> tuple[int, int]:
     return max_coup, max_valeur
 
 
-def min_max(grille: Grille, profondeur: int, mon_pion: Jeton, pion_adverse: Jeton, qui_joue: Rond | Croix,
+def min_max(grille: Grille, profondeur: int, mon_pion: Rond | Croix, pion_adverse: Rond | Croix, qui_joue: Rond | Croix,
             coup_joue: int | None = None)->int:
     """
     Méthode min-max pour choisir la colonne à jouer
