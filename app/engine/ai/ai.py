@@ -244,7 +244,7 @@ def lecture_alignement(grille: Grille, ligne: int, colonne: int, direction_h: in
     return score_a_return
 
 
-def get_pion_adverse(mon_pion: Jeton) -> str:
+def get_pion_adverse(mon_pion: Jeton) -> Rond | Croix:
     """
         renvoi le caractère du pion adverse
 
