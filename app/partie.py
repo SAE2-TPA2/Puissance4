@@ -86,6 +86,11 @@ class Partie:
         self.affichage_temps_reflexion()
 
     def affichage_temps_reflexion(self):
+        """
+        Affiche le temps de réflexion pour chaque joueur sur un graphique.
+        On utilise la librairie plotly pour afficher le graphique.
+        Le graphique sera afficher dans le navigateur par défaut.
+        """
         # Affiche le temps de réflexion pour chaque joueur
         print(
             f"Temps de réflexion pour {self.joueur_1.get_pseudo()} : {sum(self.joueur_1.temp_reflexion) / len(self.joueur_1.temp_reflexion)} secondes")

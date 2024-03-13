@@ -19,7 +19,6 @@ class Joueur:
             else:
                 self.pseudo = input("Entrez le nom de l'IA : ")
 
-
         self.temp_reflexion = []
 
     def get_pseudo(self):
@@ -46,8 +45,11 @@ class Joueur:
                 print("Erreur : Veillez saisir un entier")
                 colonne = input(f"Joueur {self.pseudo}({self.jeton}) choisissez une colonne : ")
             t1 = time.time()
+
             colonne = int(colonne)
+
             self.temp_reflexion.append(t1 - t0)
+
         else:
             nouveau_jeton = Rond() if self.jeton == Croix() else Croix()
 
@@ -55,7 +57,8 @@ class Joueur:
                 self.profondeur += 1
 
             t0 = time.time()
-            colonne = min_max(grille, self.profondeur, self.jeton, nouveau_jeton, self.jeton, methode_evaluation=self.method_evaluation)
+            colonne = min_max(grille, self.profondeur, self.jeton, nouveau_jeton, self.jeton,
+                              methode_evaluation=self.method_evaluation)
             t1 = time.time()
 
             if t1 - t0 < 4:

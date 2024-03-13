@@ -3,7 +3,7 @@ from app.engine.jeton import Rond, Croix, Jeton
 
 class Grille:
     """
-    La classe Grille permet de gérer la grille de jeu du puissance 4
+    La classe Grille permet de gérer la grille de jeu du Puissance 4
     """
 
     def __init__(self):
@@ -22,7 +22,7 @@ class Grille:
 
     def get_colonne(self, colonne: int):
         """
-        permet de récupérer une colonne de la grille
+        Permet de récupérer une colonne de la grille
         :param colonne: l'indice de la colonne
         :return: la colonne demandée
         """
@@ -32,7 +32,7 @@ class Grille:
 
     def get_ligne(self, ligne: int):
         """
-        permet de récupérer une ligne de la grille
+        Permet de récupérer une ligne de la grille
         :param ligne: l'indice de la ligne
         :return: la ligne demandée
         """
@@ -251,7 +251,7 @@ class Grille:
         :return: si la partie est gagnée par le pion joué
         """
 
-        #if indice_colonne_dernier_jeton is not None:
+        # if indice_colonne_dernier_jeton is not None:
         dernier_jeton = self.dernier_pion_colonne(indice_colonne_dernier_jeton)
         caractere_dernier_jeton = self.get_case(dernier_jeton, indice_colonne_dernier_jeton)
         caractere_dernier_jeton = caractere_dernier_jeton.get_caractere()
@@ -279,11 +279,6 @@ class Grille:
 
         if sone[0] == 4 and sone[1] is not None:
             return sone[1]
-
-        #else:
-
-
-        # peut etre les boucles sont optimisables
 
     def coups_possible(self) -> list[int]:
         """
@@ -322,7 +317,7 @@ class Grille:
 
     def dernier_pion_colonne(self, indice_colonne: int) -> int | None:
         """
-        retourne l'indice de la ligne du dernier pion dans la colonne
+        Retourne l'indice de la ligne du dernier pion dans la colonne
         :param indice_colonne:
         :return: indice du dernier pion dans la colonne
         """
@@ -334,9 +329,12 @@ class Grille:
 
         return None
 
-    def __deepcopy__(self, memodict=None):
-        if memodict is None:
-            memodict = {}
+    def __deepcopy__(self):
+        """
+        Permet de copier la grille du jeu
+
+        Returns : une copie de la grille
+        """
         grille = Grille()
         grille.grille = [col.copy() for col in self.grille]
         return grille

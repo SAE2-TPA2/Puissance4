@@ -65,8 +65,7 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Rond | Croix, pion_advers
         if profondeur == 0:
             if methode_evaluation == "v3":
                 return evaluation_v3(grille)
-            return evaluation_v2(grille, mon_pion)
-
+            return evaluation_v2(grille)
 
     coups_possible = grille.coups_possible()
     
@@ -106,8 +105,6 @@ def min_max(grille: Grille, profondeur: int, mon_pion: Rond | Croix, pion_advers
 def evaluation_v2(grille: Grille) -> int:
     """
     Fonction d'évaluation renvoi un int correspondant au score de la grille
-    :param mon_pion: Le pion qui joue (correspond au joueur maximisant
-    son score)
     :param grille: la grille du jeu évalué
     :return: la valeur correspondant au score de la grille
     """
@@ -262,6 +259,7 @@ def get_pion_adverse(mon_pion: Jeton) -> str:
         symbole_adverse = Rond()
     return symbole_adverse
 
+
 def etat_suivant(grille: Grille, pion: Jeton) -> list[Grille]:
     """
     Retourne l'état de la grille après avoir joué un coup
@@ -282,7 +280,6 @@ def evaluation_v3(grille: Grille) -> int:
     Fonction d'évaluation de la grille.
     L'évaluation est calculé indépendamment de la pièce qui vient d'être déposée.
     :param grille: La Grille avec les pièces
-    :param piece: Rond ou Croix selon le joueur
     :return: l'évaluation de la grille
     """
 
@@ -324,7 +321,6 @@ def evaluate_segment(segment: list[Rond | Croix | None]) -> int:
     """
     Évalue le score d'une partie de la grille
     :param segment: partie du plateau avec toutes les pièces qui ont été placées
-    :param pion: Rond ou Croix selon le joueur
     :return: le score de la partie de la grille
     """
     global VALEUR_X, VALEUR_O
