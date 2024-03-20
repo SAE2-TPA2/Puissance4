@@ -258,22 +258,7 @@ def get_pion_adverse(mon_pion: Jeton) -> Rond | Croix:
     if mon_pion == "X":
         symbole_adverse = Rond()
     return symbole_adverse
-
-
-def etat_suivant(grille: Grille, pion: Jeton) -> list[Grille]:
-    """
-    Retourne l'état de la grille après avoir joué un coup
-    :param grille: la grille du jeu
-    :param pion: le pion à jouer
-    :return: la grille après avoir joué le coup
-    """
-    resultat: list[Grille] = []
-    for coup in grille.coups_possible():
-        grille_copie = grille.__deepcopy__()
-        grille_copie.jouer_pion(coup, pion)
-        resultat.append(grille_copie)
-    return resultat
-
+    
 
 def evaluation_v3(grille: Grille) -> int:
     """
